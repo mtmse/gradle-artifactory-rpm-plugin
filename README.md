@@ -1,4 +1,4 @@
-# A Gradle plugin maintaining RPMs in Artifactory
+# A Gradle plugin for maintaining RPMs in Artifactory
 
 ## Purposes
 
@@ -13,11 +13,9 @@ artifacts with a group, an artifact name and a version in a Maven style. We want
 We also want to keep the number of RPMs down somewhat in order to preserve disk on the repository manager. Old RPMs
 will be purged regularly keeping a few generations back but not all history.
 
-## Resources
+## Usage
 
-[Artifactory REST Api](http://www.jfrog.com/confluence/display/RTF/Artifactory+REST+API)
-
-[JFrog project examples on GitHub](https://github.com/JFrogDev/project-examples)
+To be documentedUpdated documentation
 
 ## Developing
 
@@ -25,3 +23,8 @@ Build
 
 `gradle build install`
 
+## Resources
+
+[Artifactory REST Api](http://www.jfrog.com/confluence/display/RTF/Artifactory+REST+API)
+
+[JFrog project examples on GitHub](https://github.com/JFrogDev/project-examples)
