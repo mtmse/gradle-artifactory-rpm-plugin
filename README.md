@@ -15,7 +15,7 @@ will be purged regularly keeping a few generations back but not all history.
 
 ## Usage
 
-To be documentedUpdated documentation
+To be documented
 
 ## Developing
 
