@@ -21,7 +21,7 @@ To be documented
 
 Build
 
-`gradle build install`
+`./gradlew build install`
 
 ## Resources
 
