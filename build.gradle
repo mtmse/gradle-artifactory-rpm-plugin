@@ -5,10 +5,7 @@ apply plugin: 'groovy'
 apply plugin: 'maven'
 
 dependencies {
-    // todo optimize the dependencies
     compile 'org.glassfish.jersey.core:jersey-client:2.16'
-    compile 'org.glassfish.jersey.media:jersey-media-multipart:2.16'
-    compile 'com.fasterxml.jackson.core:jackson-core:2.5.1'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.5.1'
     compile 'commons-codec:commons-codec:1.10'
     compile 'commons-io:commons-io:2.4'
@@ -20,12 +17,11 @@ dependencies {
 
 repositories {
     mavenCentral()
-
-    // maven {
-    //    url "http://artifactory.mtm.se:8081/artifactory/repo"
-    // }
-
     mavenLocal()
+
+    maven {
+        url "http://artifactory.mtm.se:8081/artifactory/repo"
+    }
 }
 
 task wrapper(type: Wrapper) {
