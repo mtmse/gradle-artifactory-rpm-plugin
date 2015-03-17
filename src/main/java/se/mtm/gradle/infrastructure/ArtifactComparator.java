@@ -36,8 +36,8 @@ class ArtifactComparator implements Comparator<Artifact> {
         }
 
 
-        String o1FileName = lhs.getFile();
-        String o2FileName = rhs.getFile();
+        String o1FileName = lhs.getFileName();
+        String o2FileName = rhs.getFileName();
 
         return o1FileName.compareTo(o2FileName);
     }

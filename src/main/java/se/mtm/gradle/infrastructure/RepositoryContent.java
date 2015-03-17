@@ -1,5 +1,6 @@
 package se.mtm.gradle.infrastructure;
 
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class RepositoryContent {
         List<Artifact> artifacts = new LinkedList<>();
 
         for (String artifactName : files) {
-            artifacts.add(new Artifact(artifactName));
+            artifacts.add(new Artifact(new File(artifactName)));
         }
 
         return artifacts;

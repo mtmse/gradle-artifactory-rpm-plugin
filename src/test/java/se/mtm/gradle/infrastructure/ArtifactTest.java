@@ -2,11 +2,13 @@ package se.mtm.gradle.infrastructure;
 
 import org.junit.Test;
 
+import java.io.File;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 public class ArtifactTest {
-    private final Artifact artifact = new Artifact("nds-2.3.4-527.noarch.rpm");
+    private final Artifact artifact = new Artifact(new File("nds-2.3.4-527.noarch.rpm"));
 
     @Test
     public void get_major_version() {

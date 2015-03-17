@@ -2,6 +2,7 @@ package se.mtm.gradle.infrastructure;
 
 import org.junit.Test;
 
+import java.io.File;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,7 +15,7 @@ public class PurgeRpmTest {
     @Test
     public void find_old_rpms_to_purge_two_artifacts_only_different_releases() {
         Set<Artifact> expectedArtifacts = new HashSet<>();
-        expectedArtifacts.add(new Artifact("autoprod-1.0.1-219.noarch.rpm"));
+        expectedArtifacts.add(new Artifact(new File("autoprod-1.0.1-219.noarch.rpm")));
 
         RepositoryContent content = getTinyRepositoryContent();
         int generationsToKeep = 1;
@@ -38,8 +39,8 @@ public class PurgeRpmTest {
     @Test
     public void find_old_rpms_to_purge_two_different_systems() {
         Set<Artifact> expectedArtifacts = new HashSet<>();
-        expectedArtifacts.add(new Artifact("autoprod-1.0.1-219.noarch.rpm"));
-        expectedArtifacts.add(new Artifact("nds-1.1.1-450.noarch.rpm"));
+        expectedArtifacts.add(new Artifact(new File("autoprod-1.0.1-219.noarch.rpm")));
+        expectedArtifacts.add(new Artifact(new File("nds-1.1.1-450.noarch.rpm")));
 
         RepositoryContent content = getTwoArtifactTypeRepositoryContent();
         int generationsToKeep = 1;
@@ -65,34 +66,34 @@ public class PurgeRpmTest {
     @Test
     public void find_old_rpms_to_purge_three_different_systems() {
         Set<Artifact> expectedArtifacts = new HashSet<>();
-        expectedArtifacts.add(new Artifact("autoprod-1.0.1-219.noarch.rpm"));
-        expectedArtifacts.add(new Artifact("autoprod-1.0.1-223.noarch.rpm"));
-        expectedArtifacts.add(new Artifact("autoprod-1.0.1-228.noarch.rpm"));
-        expectedArtifacts.add(new Artifact("autoprod-1.0.1-231.noarch.rpm"));
-        expectedArtifacts.add(new Artifact("autoprod-1.1.1-224.noarch.rpm"));
-        expectedArtifacts.add(new Artifact("autoprod-1.1.1-226.noarch.rpm"));
-        expectedArtifacts.add(new Artifact("autoprod-1.1.1-227.noarch.rpm"));
-        expectedArtifacts.add(new Artifact("autoprod-1.1.2-228.noarch.rpm"));
-        expectedArtifacts.add(new Artifact("autoprod-1.1.2-229.noarch.rpm"));
-        expectedArtifacts.add(new Artifact("autoprod-1.1.2-230.noarch.rpm"));
-        expectedArtifacts.add(new Artifact("autoprod-1.1.2-231.noarch.rpm"));
-        expectedArtifacts.add(new Artifact("autoprod-1.1.2-232.noarch.rpm"));
-        expectedArtifacts.add(new Artifact("nds-1.0.1-222.noarch.rpm"));
-        expectedArtifacts.add(new Artifact("nds-1.0.1-223.noarch.rpm"));
-        expectedArtifacts.add(new Artifact("nds-1.0.1-224.noarch.rpm"));
-        expectedArtifacts.add(new Artifact("nds-1.0.1-225.noarch.rpm"));
-        expectedArtifacts.add(new Artifact("services-2.0.1-301.noarch.rpm"));
-        expectedArtifacts.add(new Artifact("services-2.0.1-302.noarch.rpm"));
-        expectedArtifacts.add(new Artifact("services-2.0.1-303.noarch.rpm"));
-        expectedArtifacts.add(new Artifact("services-2.0.1-304.noarch.rpm"));
-        expectedArtifacts.add(new Artifact("services-2.1.1-1.noarch.rpm"));
-        expectedArtifacts.add(new Artifact("services-2.1.1-2.noarch.rpm"));
-        expectedArtifacts.add(new Artifact("services-2.1.1-3.noarch.rpm"));
-        expectedArtifacts.add(new Artifact("services-2.1.1-4.noarch.rpm"));
-        expectedArtifacts.add(new Artifact("services-2.1.2-5.noarch.rpm"));
-        expectedArtifacts.add(new Artifact("services-2.1.2-6.noarch.rpm"));
-        expectedArtifacts.add(new Artifact("services-2.1.2-7.noarch.rpm"));
-        expectedArtifacts.add(new Artifact("services-2.1.2-8.noarch.rpm"));
+        expectedArtifacts.add(new Artifact(new File("autoprod-1.0.1-219.noarch.rpm")));
+        expectedArtifacts.add(new Artifact(new File("autoprod-1.0.1-223.noarch.rpm")));
+        expectedArtifacts.add(new Artifact(new File("autoprod-1.0.1-228.noarch.rpm")));
+        expectedArtifacts.add(new Artifact(new File("autoprod-1.0.1-231.noarch.rpm")));
+        expectedArtifacts.add(new Artifact(new File("autoprod-1.1.1-224.noarch.rpm")));
+        expectedArtifacts.add(new Artifact(new File("autoprod-1.1.1-226.noarch.rpm")));
+        expectedArtifacts.add(new Artifact(new File("autoprod-1.1.1-227.noarch.rpm")));
+        expectedArtifacts.add(new Artifact(new File("autoprod-1.1.2-228.noarch.rpm")));
+        expectedArtifacts.add(new Artifact(new File("autoprod-1.1.2-229.noarch.rpm")));
+        expectedArtifacts.add(new Artifact(new File("autoprod-1.1.2-230.noarch.rpm")));
+        expectedArtifacts.add(new Artifact(new File("autoprod-1.1.2-231.noarch.rpm")));
+        expectedArtifacts.add(new Artifact(new File("autoprod-1.1.2-232.noarch.rpm")));
+        expectedArtifacts.add(new Artifact(new File("nds-1.0.1-222.noarch.rpm")));
+        expectedArtifacts.add(new Artifact(new File("nds-1.0.1-223.noarch.rpm")));
+        expectedArtifacts.add(new Artifact(new File("nds-1.0.1-224.noarch.rpm")));
+        expectedArtifacts.add(new Artifact(new File("nds-1.0.1-225.noarch.rpm")));
+        expectedArtifacts.add(new Artifact(new File("services-2.0.1-301.noarch.rpm")));
+        expectedArtifacts.add(new Artifact(new File("services-2.0.1-302.noarch.rpm")));
+        expectedArtifacts.add(new Artifact(new File("services-2.0.1-303.noarch.rpm")));
+        expectedArtifacts.add(new Artifact(new File("services-2.0.1-304.noarch.rpm")));
+        expectedArtifacts.add(new Artifact(new File("services-2.1.1-1.noarch.rpm")));
+        expectedArtifacts.add(new Artifact(new File("services-2.1.1-2.noarch.rpm")));
+        expectedArtifacts.add(new Artifact(new File("services-2.1.1-3.noarch.rpm")));
+        expectedArtifacts.add(new Artifact(new File("services-2.1.1-4.noarch.rpm")));
+        expectedArtifacts.add(new Artifact(new File("services-2.1.2-5.noarch.rpm")));
+        expectedArtifacts.add(new Artifact(new File("services-2.1.2-6.noarch.rpm")));
+        expectedArtifacts.add(new Artifact(new File("services-2.1.2-7.noarch.rpm")));
+        expectedArtifacts.add(new Artifact(new File("services-2.1.2-8.noarch.rpm")));
 
         RepositoryContent content = getLargeRepositoryContent();
         int generationsToKeep = 1;

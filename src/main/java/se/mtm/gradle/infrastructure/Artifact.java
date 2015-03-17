@@ -1,18 +1,24 @@
 package se.mtm.gradle.infrastructure;
 
-public class Artifact {
-    private final String file;
+import java.io.File;
 
-    public Artifact(String file) {
+public class Artifact {
+    private final File file;
+
+    public Artifact(File file) {
         this.file = file;
     }
 
-    public String getFile() {
+    public File getFile() {
         return file;
     }
 
+    public String getFileName() {
+        return file.getName();
+    }
+
     public String getSystemName() {
-        String[] parts = file.split("-");
+        String[] parts = getFileName().split("-");
 
         return parts[0];
     }
@@ -46,7 +52,7 @@ public class Artifact {
     }
 
     private Integer getInteger(int versionPosition, int position) {
-        String[] parts = file.split("-");
+        String[] parts = getFileName().split("-");
         String version = parts[versionPosition];
         parts = version.split("\\.");
         return Integer.parseInt(parts[position]);

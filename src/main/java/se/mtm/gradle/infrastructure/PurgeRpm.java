@@ -9,7 +9,7 @@ public class PurgeRpm {
 
     public static void purge(Artifact artifact, String repository, String artifactoryHost) {
         Client artifactoryClient = Util.getAuthenticatedArtifactoryClient();
-        WebTarget target = artifactoryClient.target(artifactoryHost + "/" + repository + "/" + artifact.getFile());
+        WebTarget target = artifactoryClient.target(artifactoryHost + "/" + repository + "/" + artifact.getFileName());
 
         Response response = target
                 .request()
