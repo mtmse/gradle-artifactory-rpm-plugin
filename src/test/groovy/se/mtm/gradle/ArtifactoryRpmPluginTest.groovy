@@ -15,7 +15,7 @@ class ArtifactoryRpmPluginTest {
 
         project.getPlugins().apply 'se.mtm.artifactory-rpm'
 
-        assertTrue(project.tasks.to instanceof UploadRpmTask)
-        assertTrue(project.tasks.purgeOldRpm instanceof PurgeOldRpmTask)
+        assertTrue(project.tasks.deployRpm instanceof UploadRpmTask)
+        assertTrue(project.tasks.purgeOldRpms instanceof PurgeOldRpmTask)
     }
 }

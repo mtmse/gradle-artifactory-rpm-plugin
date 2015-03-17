@@ -11,7 +11,7 @@ class UploadRpmTaskTest {
     public void should_be_able_to_add_task_to_project() {
         Project project = ProjectBuilder.builder().build()
 
-        def task = project.task('to', type: UploadRpmTask)
+        def task = project.task('deployRpm', type: UploadRpmTask)
 
         assertTrue(task instanceof UploadRpmTask)
     }
