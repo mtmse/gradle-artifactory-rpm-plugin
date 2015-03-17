@@ -2,9 +2,9 @@ package se.mtm.gradle.defaults;
 
 public class ArtifactoryRpmPluginDefaults {
     private String repositoryServerUrl = "http://artifactory.mtm.se:8081/artifactory";
-    private String repositoryName = "mtm-utv";
-    private String userName = "undefinedUser";
-    private String password = "undefinedPassword";
+    private String repositoryName = "mtm-dev";
+    private String buildDirectory = "./build/distributions/";
+    private int generationsToKeep= 1;
 
     public String getRepositoryServerUrl() {
         return repositoryServerUrl;
@@ -22,19 +22,19 @@ public class ArtifactoryRpmPluginDefaults {
         this.repositoryName = repositoryName;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getBuildDirectory() {
+        return buildDirectory;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setBuildDirectory(String buildDirectory) {
+        this.buildDirectory = buildDirectory;
     }
 
-    public String getPassword() {
-        return password;
+    public int getGenerationsToKeep() {
+        return generationsToKeep;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setGenerationsToKeep(int generationsToKeep) {
+        this.generationsToKeep = generationsToKeep;
     }
 }
