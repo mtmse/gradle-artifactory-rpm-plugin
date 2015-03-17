@@ -1,6 +1,7 @@
 package se.mtm.gradle.infrastructure;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.FileUtils;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
@@ -10,20 +11,18 @@ import javax.ws.rs.core.Response;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 public class UploadRpm {
-    public static void to(String buildDirectory, Artifact artifact, String repository, String artifactoryHost) throws IOException {
-        String rpmFileName = buildDirectory + artifact.getFile();
-        InputStream resourceAsStream = UploadRpm.class.getResourceAsStream(rpmFileName);
+    public static void to(Artifact artifact, String repository, String artifactoryHost) throws IOException {
+        InputStream resourceAsStream = FileUtils.openInputStream(artifact.getFile());
         String md5Hash = DigestUtils.md5Hex(resourceAsStream);
 
-        URL rpmResource = UploadRpm.class.getClass().getResource(rpmFileName);
-        File rpm = new File(rpmResource.getFile());
-
-        Entity<File> entity = Entity.entity(rpm, MediaType.APPLICATION_OCTET_STREAM_TYPE);
+        Entity<File> entity = Entity.entity(artifact.getFile(), MediaType.APPLICATION_OCTET_STREAM_TYPE);
         Client artifactoryClient = Util.getAuthenticatedArtifactoryClient();
-        WebTarget target = artifactoryClient.target(artifactoryHost + "/" + repository + "/" + artifact.getFile());
+        WebTarget target = artifactoryClient.target(artifactoryHost + "/" + repository + "/" + artifact.getFileName());
 
         Response response = target
                 .request()
@@ -33,5 +32,19 @@ public class UploadRpm {
         if (response.getStatus() != 201) {
             throw new UploadRpmException(artifact, repository, artifactoryHost);
         }
+    }
+
+    public static List<File> getAllRpms(String buildDirectory) {
+        File dir = new File(buildDirectory);
+        String[] fileExtensions = {"rpm"};
+
+        Collection result = FileUtils.listFiles(dir, fileExtensions, false);
+
+        List<File> rpms = new LinkedList<>();
+        for (Object fileName : result) {
+            rpms.add((File) fileName);
+        }
+
+        return rpms;
     }
 }
