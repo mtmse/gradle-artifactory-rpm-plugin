@@ -1,8 +1,9 @@
 group = 'se.mtm.gradle'
-version = '1.0.0-SNAPSHOT'
 
 apply plugin: 'groovy'
 apply plugin: 'maven'
+apply plugin: "maven-publish"
+apply plugin: "com.jfrog.artifactory"
 
 dependencies {
     compile 'org.glassfish.jersey.core:jersey-client:2.16'
@@ -22,6 +23,51 @@ repositories {
     maven {
         url "http://artifactory.mtm.se:8081/artifactory/repo"
     }
+}
+
+artifactory {
+    contextUrl = "${artifactory_contextUrl}"
+    publish {
+        repository {
+            repoKey = "${artifactory_upload_repo}"
+            username = "${mavenCredentialUsr}"
+            password = "${mavenCredentialPwd}"
+            maven = true
+        }
+    }
+    resolve {
+        repository {
+            repoKey = "${artifactory_resolve_repo}"
+            maven = true
+        }
+    }
+}
+
+publishing {
+    publications {
+        mavenDependencyList(MavenPublication) {
+            groupId group
+            artifactId "gradle-artifactory-rpm-plugin"
+            version "${version}"
+
+            artifact jar
+        }
+    }
+}
+
+artifactoryPublish {
+    publications(publishing.publications.mavenDependencyList)
+}
+
+artifactoryPublish.dependsOn(build)
+
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+buildscript {
+    repositories { maven { url 'http://repo.jfrog.org/artifactory/libs-release/' } }
+    dependencies { classpath(group: 'org.jfrog.buildinfo', name: 'build-info-extractor-gradle', version: '3.0.1') }
 }
 
 task wrapper(type: Wrapper) {
