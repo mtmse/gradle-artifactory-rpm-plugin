@@ -2,8 +2,8 @@ package se.mtm.gradle.defaults;
 
 public class ArtifactoryRpmPluginDefaults {
     private String repositoryServerUrl = "http://artifactory.mtm.se:8081/artifactory";
-    private String repositoryName = "mtm-dev";
-    private String buildDirectory = "./build/distributions/";
+    private String developmentRepo = "mtm-dev";
+    private String distributionDir = "distributions";
     private int generationsToKeep= 1;
 
     public String getRepositoryServerUrl() {
@@ -14,20 +14,20 @@ public class ArtifactoryRpmPluginDefaults {
         this.repositoryServerUrl = repositoryServerUrl;
     }
 
-    public String getRepositoryName() {
-        return repositoryName;
+    public String getDevelopmentRepo() {
+        return developmentRepo;
     }
 
-    public void setRepositoryName(String repositoryName) {
-        this.repositoryName = repositoryName;
+    public void setDevelopmentRepo(String developmentRepo) {
+        this.developmentRepo = developmentRepo;
     }
 
-    public String getBuildDirectory() {
-        return buildDirectory;
+    public String getDistributionDir() {
+        return distributionDir;
     }
 
-    public void setBuildDirectory(String buildDirectory) {
-        this.buildDirectory = buildDirectory;
+    public void setDistributionDir(String distributionDir) {
+        this.distributionDir = distributionDir;
     }
 
     public int getGenerationsToKeep() {

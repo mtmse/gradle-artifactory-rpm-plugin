@@ -20,7 +20,7 @@ public class PurgeOldRpmTask extends DefaultTask {
             extension = new ArtifactoryRpmPluginDefaults();
         }
 
-        String repository = extension.getRepositoryName();
+        String repository = extension.getDevelopmentRepo();
         String artifactoryHost = extension.getRepositoryServerUrl();
         int generationsToKeep = extension.getGenerationsToKeep();
 
