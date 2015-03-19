@@ -13,9 +13,9 @@ public class UploadRpmTest {
 
     @Test
     public void get_all_rpms() {
-        String dir = "src/test/resources/build/distributions";
+        String dir = "src/test/resources";
         List<File> expected = new LinkedList<>();
-        expected.add(new File("src/test/resources/build/distributions/rpm-to-artifactory-example-1.0.0-1.noarch.rpm"));
+        expected.add(new File("src/test/resources/rpm-to-artifactory-example-1.0.0-1.noarch.rpm"));
 
         List<File> actualRpms = UploadRpm.getAllRpms(dir);
 
