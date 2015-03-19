@@ -51,7 +51,7 @@ publishing {
             version "${version}"
 
             artifact jar
-            fixDependencyScope(pom)
+//            fixDependencyScope(pom)
         }
     }
 }
@@ -60,7 +60,8 @@ artifactoryPublish {
     publications(publishing.publications.mavenDependencyList)
 }
 
-artifactoryPublish.dependsOn(build)
+artifactoryPublish.dependsOn(build, install)
+//artifactoryPublish.dependsOn(build)
 
 configurations.all {
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
@@ -71,17 +72,17 @@ buildscript {
     dependencies { classpath(group: 'org.jfrog.buildinfo', name: 'build-info-extractor-gradle', version: '3.0.1') }
 }
 
-void fixDependencyScope(pom) {
-    pom.withXml {
-        asNode().dependencies.'*'.findAll() {
-            it.scope.text() == 'runtime' && project.configurations.compile.allDependencies.find { dep ->
-                dep.name == it.artifactId.text()
-            }
-        }.each() {
-            it.scope*.value = 'compile'
-        }
-    }
-}
+//void fixDependencyScope(pom) {
+//    pom.withXml {
+//        asNode().dependencies.'*'.findAll() {
+//            it.scope.text() == 'runtime' && project.configurations.compile.allDependencies.find { dep ->
+//                dep.name == it.artifactId.text()
+//            }
+//        }.each() {
+//            it.scope*.value = 'compile'
+//        }
+//    }
+//}
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.3'
