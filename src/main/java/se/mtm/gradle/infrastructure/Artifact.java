@@ -23,39 +23,62 @@ public class Artifact {
         return parts[0];
     }
 
-    public Integer getMajorVersion() {
-        int versionPosition = 1;
-        int position = 0;
+    public String getVersion() {
+        String fileName = file.getName();
+        String[] parts = fileName.split("-");
 
-        return getInteger(versionPosition, position);
+        int ignoreRelease = 1;
+        int zeroBased = 1;
+        int version = parts.length - zeroBased - ignoreRelease;
+
+        return parts[version];
     }
 
-    public Integer getMinorVersion() {
-        int versionPosition = 1;
-        int position = 1;
+    public String getRelease() {
+        String fileName = file.getName();
+        String[] parts = fileName.split("-");
 
-        return getInteger(versionPosition, position);
+        String artifactTail = findTail(parts);
+
+        return finRelease(artifactTail);
     }
 
-    public Integer getPatchVersion() {
-        int versionPosition = 1;
-        int position = 2;
+    private String findTail(String[] parts) {
+        String artifactTail = "";
+        String version = getVersion();
+        for (int index = 0; index < parts.length; index++) {
+            String part = parts[index];
+            if (part.equals(version)) {
+                artifactTail = parts[index + 1];
+                break;
+            }
+        }
 
-        return getInteger(versionPosition, position);
+        return artifactTail;
     }
 
-    public Integer getReleaseNumber() {
-        int releasePosition = 2;
-        int position = 0;
+    private String finRelease(String artifactTail) {
+        String[] parts = artifactTail.split("\\.");
 
-        return getInteger(releasePosition, position);
-    }
+        int architecturePosition = 0;
+        for (int index = 0; index < parts.length; index++) {
+            String part = parts[index];
+            if (part.startsWith("el6") || part.startsWith("noarch")) {
+                architecturePosition = index;
+                break;
+            }
+        }
 
-    private Integer getInteger(int versionPosition, int position) {
-        String[] parts = getFileName().split("-");
-        String version = parts[versionPosition];
-        parts = version.split("\\.");
-        return Integer.parseInt(parts[position]);
+        String release = "";
+        for (int index = 0; index < architecturePosition; index++) {
+            String part = parts[index];
+            release += part;
+            if (index < architecturePosition - 1) {
+                release += ".";
+            }
+        }
+
+        return release;
     }
 
     @Override

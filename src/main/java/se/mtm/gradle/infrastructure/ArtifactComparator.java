@@ -11,26 +11,26 @@ class ArtifactComparator implements Comparator<Artifact> {
             return lhsSystem.compareTo(rhsSystem);
         }
 
-        Integer lhsMajorVersion = lhs.getMajorVersion();
-        Integer rhsMajorVersion = rhs.getMajorVersion();
+        Integer lhsMajorVersion = getMajorVersion(lhs);
+        Integer rhsMajorVersion = getMajorVersion(rhs);
         if (lhsMajorVersion.compareTo(rhsMajorVersion) != 0) {
             return lhsMajorVersion.compareTo(rhsMajorVersion);
         }
 
-        Integer lhsMinorVersion = lhs.getMinorVersion();
-        Integer rhsMinorVersion = rhs.getMinorVersion();
+        Integer lhsMinorVersion = getMinorVersion(lhs);
+        Integer rhsMinorVersion = getMinorVersion(rhs);
         if (lhsMinorVersion.compareTo(rhsMinorVersion) != 0) {
             return lhsMinorVersion.compareTo(rhsMinorVersion);
         }
 
-        Integer lhsPatchVersion = lhs.getPatchVersion();
-        Integer rhsPatchVersion = rhs.getPatchVersion();
+        Integer lhsPatchVersion = getPatchVersion(lhs);
+        Integer rhsPatchVersion = getPatchVersion(rhs);
         if (lhsPatchVersion.compareTo(rhsPatchVersion) != 0) {
             return lhsPatchVersion.compareTo(rhsPatchVersion);
         }
 
-        Integer lhsReleaseNumber = lhs.getReleaseNumber();
-        Integer rhsReleaseNumber = rhs.getReleaseNumber();
+        Integer lhsReleaseNumber = getReleaseNumber(lhs);
+        Integer rhsReleaseNumber = getReleaseNumber(rhs);
         if (lhsReleaseNumber.compareTo(rhsReleaseNumber) != 0) {
             return lhsReleaseNumber.compareTo(rhsReleaseNumber);
         }
@@ -41,4 +41,34 @@ class ArtifactComparator implements Comparator<Artifact> {
 
         return o1FileName.compareTo(o2FileName);
     }
+
+    private Integer getMajorVersion(Artifact artifact) {
+        int position = 0;
+
+        return getInteger(artifact.getVersion(), position);
+    }
+
+    private Integer getMinorVersion(Artifact artifact) {
+        int position = 1;
+
+        return getInteger(artifact.getVersion(), position);
+    }
+
+    private Integer getPatchVersion(Artifact artifact) {
+        int position = 2;
+
+        return getInteger(artifact.getVersion(), position);
+    }
+
+    private Integer getReleaseNumber(Artifact artifact) {
+        int position = 0;
+
+        return getInteger(artifact.getRelease(), position);
+    }
+
+    private Integer getInteger(String version, int position) {
+        String[] parts = version.split("\\.");
+        return Integer.parseInt(parts[position]);
+    }
+
 }
