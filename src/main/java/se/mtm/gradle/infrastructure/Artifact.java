@@ -63,6 +63,7 @@ public class Artifact {
         int architecturePosition = 0;
         for (int index = 0; index < parts.length; index++) {
             String part = parts[index];
+            // todo add a list of known architectures
             if (part.startsWith("el6") || part.startsWith("noarch")) {
                 architecturePosition = index;
                 break;
