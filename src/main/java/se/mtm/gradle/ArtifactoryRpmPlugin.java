@@ -3,6 +3,7 @@ package se.mtm.gradle;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import se.mtm.gradle.defaults.ArtifactoryRpmPluginDefaults;
+import se.mtm.gradle.tasks.PromoteRpmTask;
 import se.mtm.gradle.tasks.PurgeOldRpmTask;
 import se.mtm.gradle.tasks.UploadRpmTask;
 
@@ -17,6 +18,7 @@ class ArtifactoryRpmPlugin implements Plugin<Project> {
     public void apply(Project project) {
         project.getExtensions().create("artifactoryRpm", ArtifactoryRpmPluginDefaults.class);
         project.getTasks().create("deployRpm", UploadRpmTask.class);
+        project.getTasks().create("promoteRpm", PromoteRpmTask.class);
         project.getTasks().create("purgeOldRpms", PurgeOldRpmTask.class);
     }
 }
