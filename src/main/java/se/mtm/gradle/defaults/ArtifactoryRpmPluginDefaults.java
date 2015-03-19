@@ -3,6 +3,7 @@ package se.mtm.gradle.defaults;
 public class ArtifactoryRpmPluginDefaults {
     private String repositoryServerUrl = "http://artifactory.mtm.se:8081/artifactory";
     private String developmentRepo = "mtm-dev";
+    private String promotionRepo = "mtm-utv";
     private String distributionDir = "distributions";
     private int generationsToKeep= 1;
 
@@ -20,6 +21,14 @@ public class ArtifactoryRpmPluginDefaults {
 
     public void setDevelopmentRepo(String developmentRepo) {
         this.developmentRepo = developmentRepo;
+    }
+
+    public String getPromotionRepo() {
+        return promotionRepo;
+    }
+
+    public void setPromotionRepo(String promotionRepo) {
+        this.promotionRepo = promotionRepo;
     }
 
     public String getDistributionDir() {
