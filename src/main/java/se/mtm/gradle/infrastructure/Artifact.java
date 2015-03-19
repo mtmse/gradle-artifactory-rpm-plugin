@@ -3,6 +3,7 @@ package se.mtm.gradle.infrastructure;
 import java.io.File;
 
 public class Artifact {
+    private static final String[] KNOWN_ARCHITECTURES = {"el6", "noarch", "x86_64", "rhel6"};
     private final File file;
 
     public Artifact(File file) {
@@ -63,10 +64,11 @@ public class Artifact {
         int architecturePosition = 0;
         for (int index = 0; index < parts.length; index++) {
             String part = parts[index];
-            // todo add a list of known architectures
-            if (part.startsWith("el6") || part.startsWith("noarch")) {
-                architecturePosition = index;
-                break;
+            for (String architecture : KNOWN_ARCHITECTURES) {
+                if (part.startsWith(architecture) ) {
+                    architecturePosition = index;
+                    index = parts.length;
+                }
             }
         }
 
