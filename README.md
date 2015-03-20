@@ -66,6 +66,19 @@ The truth and default values are defined in
 
 `src/main/java/se/mtm/gradle/defaults/ArtifactoryRpmPluginDefaults`
 
+### Environment variables
+
+The plugin need access to a user credentials for communicating with Artifactory. These should be set as environment variables.
+Set
+
+* ARTIFACTORY_USER
+* ARTIFACTORY_PASSWORD
+
+to the user and password you use for uploading artifacts to Artifactory. If you are using Jenkins, then set them
+as environment variables in Jenkins. You find the settings by following these menus items:
+
+`Jenkins | Manage Jenkins | Configure System | Environment variables`
+
 ## Developing
 
 Build
