@@ -48,7 +48,7 @@ The properties that can be set are
 * String distributionDir
 * int generationsToKeep
 
-The truth is defined in `src/main/java/se/mtm/gradle/defaults/ArtifactoryRpmPluginDefaults`
+The truth and default values are defined in `src/main/java/se/mtm/gradle/defaults/ArtifactoryRpmPluginDefaults`
 
 ## Developing
 
