@@ -30,6 +30,8 @@ buildscript {
 }
 ```
 
+The version number, `1.0.5`, is obsolete. Update it with the latest release.
+
 Configure it:
 
 ```Gradle
@@ -48,7 +50,9 @@ The properties that can be set are
 * String distributionDir
 * int generationsToKeep
 
-The truth and default values are defined in `src/main/java/se/mtm/gradle/defaults/ArtifactoryRpmPluginDefaults`
+The truth and default values are defined in 
+
+`src/main/java/se/mtm/gradle/defaults/ArtifactoryRpmPluginDefaults`
 
 ## Developing
 
