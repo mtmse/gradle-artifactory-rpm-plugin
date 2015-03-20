@@ -15,6 +15,18 @@ will be purged regularly keeping a few generations back but not all history.
 
 ## Usage
 
+How are you expected to use the plugin?
+
+### Tasks
+
+These task are available
+
+* deployRpm - deploy an rpm to a staging repository
+* promoteRpm - promote an rpm from the staging repository
+* purgeOldRpms - remove old rpms, defaults to keep the latest
+
+### Configuration
+
 Get access to the plugin:
 
 ```Gradle
@@ -43,12 +55,12 @@ artifactoryRpm {
 
 The properties that can be set are
 
-* String repositoryServerUrl
-* String developmentRepo
-* String promotionRepo
-* String[] purgeRepos
-* String distributionDir
-* int generationsToKeep
+* String repositoryServerUrl - your Artifactory host
+* String developmentRepo - a staging repository
+* String promotionRepo - a repository to keep artifacts that have passed automated tests
+* String[] purgeRepos - an array of repositories that should be visited when purging old artifacts
+* String distributionDir - the directory where the rpm is stored after executing `buildRpm`
+* int generationsToKeep - how many old artifacts should be kept when purging old rpm
 
 The truth and default values are defined in 
 
