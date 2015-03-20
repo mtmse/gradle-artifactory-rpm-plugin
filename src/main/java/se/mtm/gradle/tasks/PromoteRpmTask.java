@@ -1,6 +1,7 @@
 package se.mtm.gradle.tasks;
 
 import org.gradle.api.DefaultTask;
+import org.gradle.api.logging.Logger;
 import org.gradle.api.tasks.TaskAction;
 import se.mtm.gradle.defaults.ArtifactoryRpmPluginDefaults;
 import se.mtm.gradle.infrastructure.Artifact;
@@ -14,6 +15,7 @@ import java.util.List;
 public class PromoteRpmTask extends DefaultTask {
     @TaskAction
     public void promoteRpm() throws IOException {
+        Logger logger = getLogger();
         ArtifactoryRpmPluginDefaults extension = getProject().getExtensions().findByType(ArtifactoryRpmPluginDefaults.class);
 
         if (extension == null) {
@@ -31,11 +33,8 @@ public class PromoteRpmTask extends DefaultTask {
         for (File rpm : rpms) {
             Artifact artifact = new Artifact(rpm);
             UploadRpm.to(artifact, promotionRepo, artifactoryHost);
-        }
-
-        for (File rpm : rpms) {
-            Artifact artifact = new Artifact(rpm);
             PurgeRpm.purge(artifact, developmentRepo, artifactoryHost);
+            logger.lifecycle("Promoted " + artifact.getFileName() + " from " + developmentRepo + " to " + promotionRepo + " on " + artifactoryHost);
         }
     }
 }

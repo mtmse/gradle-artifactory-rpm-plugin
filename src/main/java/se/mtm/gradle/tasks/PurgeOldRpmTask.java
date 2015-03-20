@@ -1,6 +1,7 @@
 package se.mtm.gradle.tasks;
 
 import org.gradle.api.DefaultTask;
+import org.gradle.api.logging.Logger;
 import org.gradle.api.tasks.TaskAction;
 import se.mtm.gradle.defaults.ArtifactoryRpmPluginDefaults;
 import se.mtm.gradle.infrastructure.Artifact;
@@ -14,6 +15,7 @@ import java.util.Set;
 public class PurgeOldRpmTask extends DefaultTask {
     @TaskAction
     public void purgeOldRpm() throws IOException {
+        Logger logger = getLogger();
         ArtifactoryRpmPluginDefaults extension = getProject().getExtensions().findByType(ArtifactoryRpmPluginDefaults.class);
 
         if (extension == null) {
@@ -30,6 +32,7 @@ public class PurgeOldRpmTask extends DefaultTask {
 
         for (Artifact artifact : artifactsToPurge) {
             PurgeRpm.purge(artifact, repository, artifactoryHost);
+            logger.lifecycle("Purged " + artifact.getFileName() + " from " + repository + " on " + artifactoryHost);
         }
     }
 }
