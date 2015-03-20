@@ -22,7 +22,7 @@ public class PromoteRpmTask extends DefaultTask {
             extension = new ArtifactoryRpmPluginDefaults();
         }
 
-        String developmentRepo = extension.getDevelopmentRepo();
+        String developmentRepo = extension.getStagingRepo();
         String promotionRepo = extension.getPromotionRepo();
         String artifactoryHost = extension.getRepositoryServerUrl();
 

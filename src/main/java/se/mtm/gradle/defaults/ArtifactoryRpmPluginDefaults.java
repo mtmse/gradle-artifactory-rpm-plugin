@@ -2,7 +2,7 @@ package se.mtm.gradle.defaults;
 
 public class ArtifactoryRpmPluginDefaults {
     private String repositoryServerUrl = "http://artifactory.mtm.se:8081/artifactory";
-    private String developmentRepo = "mtm-dev";
+    private String stagingRepo = "mtm-staging";
     private String promotionRepo = "mtm-utv";
     private String[] purgeRepos;
     private String distributionDir = "distributions";
@@ -10,7 +10,7 @@ public class ArtifactoryRpmPluginDefaults {
 
     public ArtifactoryRpmPluginDefaults() {
         purgeRepos = new String[2];
-        purgeRepos[0] = developmentRepo;
+        purgeRepos[0] = stagingRepo;
         purgeRepos[1] = promotionRepo;
     }
 
@@ -22,12 +22,12 @@ public class ArtifactoryRpmPluginDefaults {
         this.repositoryServerUrl = repositoryServerUrl;
     }
 
-    public String getDevelopmentRepo() {
-        return developmentRepo;
+    public String getStagingRepo() {
+        return stagingRepo;
     }
 
-    public void setDevelopmentRepo(String developmentRepo) {
-        this.developmentRepo = developmentRepo;
+    public void setStagingRepo(String stagingRepo) {
+        this.stagingRepo = stagingRepo;
     }
 
     public String getPromotionRepo() {

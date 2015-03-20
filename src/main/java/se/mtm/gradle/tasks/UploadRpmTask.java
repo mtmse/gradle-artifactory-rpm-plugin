@@ -23,7 +23,7 @@ public class UploadRpmTask extends DefaultTask {
 
         final String buildDir = getProject().getBuildDir().getCanonicalPath() + "/";
         String buildDirectory = buildDir +  extension.getDistributionDir();
-        String repository = extension.getDevelopmentRepo();
+        String repository = extension.getStagingRepo();
         String artifactoryHost = extension.getRepositoryServerUrl();
 
         List<File> rpms = UploadRpm.getAllRpms(buildDirectory);

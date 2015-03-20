@@ -48,7 +48,7 @@ Configure it:
 
 ```Gradle
 artifactoryRpm {
-    developmentRepo = "mtm-utv"
+    stagingRepo = "mtm-utv"
     purgeRepos = ["mtm-test", "mtm-dev"]
 }
 ```
@@ -56,7 +56,7 @@ artifactoryRpm {
 The properties that can be set are
 
 * String repositoryServerUrl - your Artifactory host
-* String developmentRepo - a staging repository
+* String stagingRepo - a staging repository where artifacts that haven't passed automated tests yet calls home
 * String promotionRepo - a repository to keep artifacts that have passed automated tests
 * String[] purgeRepos - an array of repositories that should be visited when purging old artifacts
 * String distributionDir - the directory where the rpm is stored after executing `buildRpm`
