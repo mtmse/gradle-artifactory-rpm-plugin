@@ -17,10 +17,6 @@ will be purged regularly keeping a few generations back but not all history.
 
 Get access to the plugin:
 
-`apply plugin: 'se.mtm.artifactory-rpm'`
-
-Add it to the build script:
-
 ```Gradle
 apply plugin: 'se.mtm.artifactory-rpm'
 
