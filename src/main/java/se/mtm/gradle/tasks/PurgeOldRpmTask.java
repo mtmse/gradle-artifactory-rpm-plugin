@@ -15,21 +15,29 @@ import java.util.Set;
 public class PurgeOldRpmTask extends DefaultTask {
     @TaskAction
     public void purgeOldRpm() throws IOException {
-        Logger logger = getLogger();
         ArtifactoryRpmPluginDefaults extension = getProject().getExtensions().findByType(ArtifactoryRpmPluginDefaults.class);
 
         if (extension == null) {
             extension = new ArtifactoryRpmPluginDefaults();
         }
 
-        String repository = extension.getDevelopmentRepo();
+        String[] repositories = extension.getPurgeRepos();
         String artifactoryHost = extension.getRepositoryServerUrl();
         int generationsToKeep = extension.getGenerationsToKeep();
 
+        for (String repository : repositories) {
+            Set<Artifact> artifactsToPurge = findArtifacts(repository, artifactoryHost, generationsToKeep);
+            purge(artifactsToPurge, artifactoryHost, repository);
+        }
+    }
+
+    private Set<Artifact> findArtifacts(String repository, String artifactoryHost, int generationsToKeep) throws IOException {
         RepositoryContent allRpms = FindRpms.in(repository, artifactoryHost);
+        return PurgeRpm.getArtifactsToPurge(allRpms, generationsToKeep);
+    }
 
-        Set<Artifact> artifactsToPurge = PurgeRpm.getArtifactsToPurge(allRpms, generationsToKeep);
-
+    private void purge(Set<Artifact> artifactsToPurge, String artifactoryHost, String repository) {
+        Logger logger = getLogger();
         for (Artifact artifact : artifactsToPurge) {
             PurgeRpm.purge(artifact, repository, artifactoryHost);
             logger.lifecycle("Purged " + artifact.getFileName() + " from " + repository + " on " + artifactoryHost);

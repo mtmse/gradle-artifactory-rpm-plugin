@@ -4,8 +4,15 @@ public class ArtifactoryRpmPluginDefaults {
     private String repositoryServerUrl = "http://artifactory.mtm.se:8081/artifactory";
     private String developmentRepo = "mtm-dev";
     private String promotionRepo = "mtm-utv";
+    private String[] purgeRepos;
     private String distributionDir = "distributions";
-    private int generationsToKeep= 1;
+    private int generationsToKeep = 1;
+
+    public ArtifactoryRpmPluginDefaults() {
+        purgeRepos = new String[2];
+        purgeRepos[0] = developmentRepo;
+        purgeRepos[1] = promotionRepo;
+    }
 
     public String getRepositoryServerUrl() {
         return repositoryServerUrl;
@@ -29,6 +36,14 @@ public class ArtifactoryRpmPluginDefaults {
 
     public void setPromotionRepo(String promotionRepo) {
         this.promotionRepo = promotionRepo;
+    }
+
+    public String[] getPurgeRepos() {
+        return purgeRepos;
+    }
+
+    public void setPurgeRepos(String[] purgeRepos) {
+        this.purgeRepos = purgeRepos;
     }
 
     public String getDistributionDir() {
