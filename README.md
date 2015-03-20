@@ -15,7 +15,44 @@ will be purged regularly keeping a few generations back but not all history.
 
 ## Usage
 
-To be documented
+Get access to the plugin:
+
+`apply plugin: 'se.mtm.artifactory-rpm'`
+
+Add it to the build script:
+
+```Gradle
+apply plugin: 'se.mtm.artifactory-rpm'
+
+buildscript {
+    repositories {
+        mavenLocal()
+    }
+    dependencies {
+        classpath 'se.mtm.gradle:gradle-artifactory-rpm-plugin:1.0.5'
+    }
+}
+```
+
+Configure it:
+
+```Gradle
+artifactoryRpm {
+    developmentRepo = "mtm-utv"
+    purgeRepos = ["mtm-test", "mtm-dev"]
+}
+```
+
+The properties that can be set are
+
+* String repositoryServerUrl
+* String developmentRepo
+* String promotionRepo
+* String[] purgeRepos
+* String distributionDir
+* int generationsToKeep
+
+The truth is defined in `src/main/java/se/mtm/gradle/defaults/ArtifactoryRpmPluginDefaults`
 
 ## Developing
 
@@ -28,3 +65,6 @@ Build
 [Artifactory REST Api](http://www.jfrog.com/confluence/display/RTF/Artifactory+REST+API)
 
 [JFrog project examples on GitHub](https://github.com/JFrogDev/project-examples)
+
+[Gradle, Writing Custom Plugins](https://gradle.org/docs/current/userguide/custom_plugins.html)
+
