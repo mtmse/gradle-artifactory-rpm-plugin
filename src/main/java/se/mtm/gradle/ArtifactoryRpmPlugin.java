@@ -2,7 +2,7 @@ package se.mtm.gradle;
 
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
-import se.mtm.gradle.defaults.ArtifactoryRpmPluginDefaults;
+import se.mtm.gradle.extensions.ArtifactoryRpmPluginDefaults;
 import se.mtm.gradle.tasks.PromoteRpmTask;
 import se.mtm.gradle.tasks.PurgeOldRpmTask;
 import se.mtm.gradle.tasks.UploadRpmTask;

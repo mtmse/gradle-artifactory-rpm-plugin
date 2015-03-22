@@ -3,7 +3,7 @@ package se.mtm.gradle.tasks;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.tasks.TaskAction;
-import se.mtm.gradle.defaults.ArtifactoryRpmPluginDefaults;
+import se.mtm.gradle.extensions.ArtifactoryRpmPluginDefaults;
 import se.mtm.gradle.infrastructure.Artifact;
 import se.mtm.gradle.infrastructure.PurgeRpm;
 import se.mtm.gradle.infrastructure.UploadRpm;

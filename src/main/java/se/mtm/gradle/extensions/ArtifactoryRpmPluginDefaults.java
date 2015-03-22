@@ -1,4 +1,4 @@
-package se.mtm.gradle.defaults;
+package se.mtm.gradle.extensions;
 
 public class ArtifactoryRpmPluginDefaults {
     private String repositoryServerUrl = "http://artifactory.mtm.se:8081/artifactory";
