@@ -62,9 +62,7 @@ The properties that can be set are
 * String distributionDir - the directory where the rpm is stored after executing `buildRpm`
 * int generationsToKeep - how many old artifacts should be kept when purging old rpm
 
-The truth and default values are defined in 
-
-`src/main/java/se/mtm/gradle/defaults/ArtifactoryRpmPluginDefaults`
+The truth and default values are defined in [src/main/java/se/mtm/gradle/extensions/ArtifactoryRpmPluginDefaults](https://github.com/mtmse/gradle-artifactory-rpm-plugin/blob/master/src/main/java/se/mtm/gradle/extensions/ArtifactoryRpmPluginDefaults.java)
 
 ### Environment variables
 
