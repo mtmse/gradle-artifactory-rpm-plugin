@@ -22,7 +22,7 @@ public class PromoteRpmTask extends DefaultTask {
             extension = new ArtifactoryRpmPluginDefaults();
         }
 
-        String developmentRepo = extension.getStagingRepo();
+        String stagingRepo = extension.getStagingRepo();
         String promotionRepo = extension.getPromotionRepo();
         String artifactoryHost = extension.getRepositoryServerUrl();
 
@@ -33,8 +33,8 @@ public class PromoteRpmTask extends DefaultTask {
         for (File rpm : rpms) {
             Artifact artifact = new Artifact(rpm);
             UploadRpm.to(artifact, promotionRepo, artifactoryHost);
-            PurgeRpm.purge(artifact, developmentRepo, artifactoryHost);
-            logger.lifecycle("Promoted " + artifact.getFileName() + " from " + developmentRepo + " to " + promotionRepo + " on " + artifactoryHost);
+            PurgeRpm.purge(artifact, stagingRepo, artifactoryHost);
+            logger.lifecycle("Promoted " + artifact.getFileName() + " from " + stagingRepo + " to " + promotionRepo + " on " + artifactoryHost);
         }
     }
 }
