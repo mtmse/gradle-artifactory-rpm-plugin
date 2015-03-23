@@ -21,7 +21,7 @@ public class UploadRpm {
         String md5Hash = DigestUtils.md5Hex(resourceAsStream);
 
         Entity<File> entity = Entity.entity(artifact.getFile(), MediaType.APPLICATION_OCTET_STREAM_TYPE);
-        Client artifactoryClient = Util.getAuthenticatedArtifactoryClient();
+        Client artifactoryClient = ArtifactoryClient.authenticated();
         WebTarget target = artifactoryClient.target(artifactoryHost + "/" + repository + "/" + artifact.getFileName());
 
         Response response = target

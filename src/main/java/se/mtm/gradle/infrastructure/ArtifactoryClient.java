@@ -5,11 +5,11 @@ import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 
-class Util {
+class ArtifactoryClient {
     private static final String ARTIFACTORY_USER = "ARTIFACTORY_USER";
     private static final String ARTIFACTORY_PASSWORD = "ARTIFACTORY_PASSWORD";
 
-    static Client getAuthenticatedArtifactoryClient() {
+    static Client authenticated() {
         Client client = ClientBuilder.newClient();
         client.register(getHttpAuthenticationFeature());
         return client;

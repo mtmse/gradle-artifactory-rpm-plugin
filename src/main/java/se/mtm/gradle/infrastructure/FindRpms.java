@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class FindRpms {
     public static RepositoryContent in(String repository, String artifactoryHost) throws IOException {
-        Client artifactoryClient = Util.getAuthenticatedArtifactoryClient();
+        Client artifactoryClient = ArtifactoryClient.authenticated();
 
         Response response = artifactoryClient.target(artifactoryHost)
                 .path("api/search/pattern")
