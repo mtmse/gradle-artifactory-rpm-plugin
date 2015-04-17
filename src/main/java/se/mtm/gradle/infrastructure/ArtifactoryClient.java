@@ -24,7 +24,7 @@ class ArtifactoryClient {
         }
 
         if (password == null) {
-            throw new CredentialsMissingException("The environment variable " +ARTIFACTORY_PASSWORD + " must be set and contain a password for a user that has credentials to upload artifacts to Artifactory");
+            throw new CredentialsMissingException("The environment variable " + ARTIFACTORY_PASSWORD + " must be set and contain a password for a user that has credentials to upload artifacts to Artifactory");
         }
 
         return HttpAuthenticationFeature.basicBuilder()

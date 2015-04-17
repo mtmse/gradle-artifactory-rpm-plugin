@@ -65,7 +65,7 @@ public class Artifact {
         for (int index = 0; index < parts.length; index++) {
             String part = parts[index];
             for (String architecture : KNOWN_ARCHITECTURES) {
-                if (part.startsWith(architecture) ) {
+                if (part.startsWith(architecture)) {
                     architecturePosition = index;
                     index = parts.length;
                 }

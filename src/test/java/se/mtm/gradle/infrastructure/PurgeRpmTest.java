@@ -103,7 +103,6 @@ public class PurgeRpmTest {
         assertThat(actualArtifacts, is(expectedArtifacts));
     }
 
-
     private RepositoryContent getLargeRepositoryContent() {
         String repoUri = "http://artifactory.mtm.se:8081/artifactory/mtm-utv";
         String sourcePattern = "mtm-utv:*.rpm";

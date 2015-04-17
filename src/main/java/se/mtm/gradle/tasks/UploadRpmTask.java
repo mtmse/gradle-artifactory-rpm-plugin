@@ -22,7 +22,7 @@ public class UploadRpmTask extends DefaultTask {
         }
 
         final String buildDir = getProject().getBuildDir().getCanonicalPath() + "/";
-        String buildDirectory = buildDir +  extension.getDistributionDir();
+        String buildDirectory = buildDir + extension.getDistributionDir();
         String repository = extension.getStagingRepo();
         String artifactoryHost = extension.getRepositoryServerUrl();
 
