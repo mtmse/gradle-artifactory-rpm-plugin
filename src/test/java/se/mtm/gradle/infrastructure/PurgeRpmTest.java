@@ -139,6 +139,8 @@ public class PurgeRpmTest {
         files.add("services-2.1.2-7.noarch.rpm");
         files.add("services-2.1.2-8.noarch.rpm");
         files.add("services-2.1.2-9.noarch.rpm");
+        files.add("pipeline2-1.9-1.x86_64.rpm");
+        files.add("pipeline2-webui-1.8.1-1.noarch.rpm");
 
         return new RepositoryContent(repoUri, sourcePattern, files);
     }

@@ -19,9 +19,13 @@ public class Artifact {
     }
 
     public String getSystemName() {
-        String[] parts = getFileName().split("-");
+        String completeName = getFileName();
+        String version = getVersion();
 
-        return parts[0];
+        int compensateForVersionDash = 1;
+        int versionPosition = completeName.indexOf(version) - compensateForVersionDash;
+
+        return completeName.substring(0, versionPosition);
     }
 
     public String getVersion() {
