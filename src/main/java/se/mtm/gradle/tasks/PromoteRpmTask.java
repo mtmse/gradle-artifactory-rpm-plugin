@@ -21,6 +21,7 @@ public class PromoteRpmTask extends DefaultTask {
         if (extension == null) {
             extension = new ArtifactoryRpmPluginDefaults();
         }
+        extension.setBuildDir(getProject().getBuildDir());
 
         String stagingRepo = extension.getStagingRepo();
         String promotionRepo = extension.getPromotionRepo();

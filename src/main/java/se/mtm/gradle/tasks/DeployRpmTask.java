@@ -11,7 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class UploadRpmTask extends DefaultTask {
+public class DeployRpmTask extends DefaultTask {
     @TaskAction
     public void uploadRpm() throws IOException {
         Logger logger = getLogger();
@@ -20,6 +20,7 @@ public class UploadRpmTask extends DefaultTask {
         if (extension == null) {
             extension = new ArtifactoryRpmPluginDefaults();
         }
+        extension.setBuildDir(getProject().getBuildDir());
 
         String distributionDir = extension.getDistributionDir();
         String repository = extension.getStagingRepo();

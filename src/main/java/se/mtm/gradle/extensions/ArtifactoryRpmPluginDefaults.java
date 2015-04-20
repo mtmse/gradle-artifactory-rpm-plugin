@@ -1,12 +1,20 @@
 package se.mtm.gradle.extensions;
 
+import se.mtm.gradle.infrastructure.ConfigurationException;
+
+import java.io.File;
+import java.io.IOException;
+
 public class ArtifactoryRpmPluginDefaults {
     private String repositoryServerUrl = "http://artifactory.mtm.se:8081/artifactory";
     private String stagingRepo = "mtm-staging";
     private String promotionRepo = "mtm-utv";
     private String[] purgeRepos;
-    private String distributionDir = "build/distributions";
+    private String distributionDir = "distributions";
     private int generationsToKeep = 1;
+
+    boolean isDistributionDirChanged = false;
+    private File buildDir;
 
     public ArtifactoryRpmPluginDefaults() {
         purgeRepos = new String[2];
@@ -47,10 +55,19 @@ public class ArtifactoryRpmPluginDefaults {
     }
 
     public String getDistributionDir() {
-        return distributionDir;
+        if (isDistributionDirChanged) {
+            return distributionDir;
+        }
+
+        try {
+            return buildDir.getCanonicalPath() + File.separator + distributionDir;
+        } catch (Exception e) {
+            throw new ConfigurationException(e.getMessage(), e);
+        }
     }
 
     public void setDistributionDir(String distributionDir) {
+        isDistributionDirChanged = true;
         this.distributionDir = distributionDir;
     }
 
@@ -60,5 +77,9 @@ public class ArtifactoryRpmPluginDefaults {
 
     public void setGenerationsToKeep(int generationsToKeep) {
         this.generationsToKeep = generationsToKeep;
+    }
+
+    public void setBuildDir(File buildDir) {
+        this.buildDir = buildDir;
     }
 }

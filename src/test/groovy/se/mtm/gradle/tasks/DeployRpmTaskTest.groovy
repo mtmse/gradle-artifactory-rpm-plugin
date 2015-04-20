@@ -6,13 +6,13 @@ import org.junit.Test
 
 import static org.junit.Assert.assertTrue
 
-class UploadRpmTaskTest {
+class DeployRpmTaskTest {
     @Test
     public void should_be_able_to_add_task_to_project() {
         Project project = ProjectBuilder.builder().build()
 
-        def task = project.task('deployRpm', type: UploadRpmTask)
+        def task = project.task('deployRpm', type: DeployRpmTask)
 
-        assertTrue(task instanceof UploadRpmTask)
+        assertTrue(task instanceof DeployRpmTask)
     }
 }

@@ -30,7 +30,7 @@ public class UploadRpm {
                 .put(entity);
 
         if (response.getStatus() != 201) {
-            throw new UploadRpmException(artifact, repository, artifactoryHost);
+            throw new DeployRpmException(artifact, repository, artifactoryHost);
         }
     }
 
@@ -41,9 +41,9 @@ public class UploadRpm {
                 String completePath = dir.getCanonicalPath();
                 File currentDir = new File(".");
                 String currentDirName = currentDir.getCanonicalPath();
-                throw new UploadRpmException(currentDirName, completePath);
+                throw new DeployRpmException(currentDirName, completePath);
             } catch (IOException e) {
-                throw new UploadRpmException(e.getMessage(), e);
+                throw new DeployRpmException(e.getMessage(), e);
             }
         }
 
