@@ -5,7 +5,7 @@ public class ArtifactoryRpmPluginDefaults {
     private String stagingRepo = "mtm-staging";
     private String promotionRepo = "mtm-utv";
     private String[] purgeRepos;
-    private String distributionDir = "distributions";
+    private String distributionDir = "build/distributions";
     private int generationsToKeep = 1;
 
     public ArtifactoryRpmPluginDefaults() {

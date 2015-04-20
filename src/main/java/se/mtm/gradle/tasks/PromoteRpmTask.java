@@ -26,9 +26,8 @@ public class PromoteRpmTask extends DefaultTask {
         String promotionRepo = extension.getPromotionRepo();
         String artifactoryHost = extension.getRepositoryServerUrl();
 
-        final String buildDir = getProject().getBuildDir().getCanonicalPath() + "/";
-        String buildDirectory = buildDir + extension.getDistributionDir();
-        List<File> rpms = UploadRpm.getAllRpms(buildDirectory);
+        String distributionDir = extension.getDistributionDir();
+        List<File> rpms = UploadRpm.getAllRpms(distributionDir);
 
         for (File rpm : rpms) {
             Artifact artifact = new Artifact(rpm);

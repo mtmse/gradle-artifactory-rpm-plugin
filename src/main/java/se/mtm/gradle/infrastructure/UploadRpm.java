@@ -34,9 +34,9 @@ public class UploadRpm {
         }
     }
 
-    public static List<File> getAllRpms(String buildDirectory) {
-        File dir = new File(buildDirectory);
-        if (! dir.isDirectory()) {
+    public static List<File> getAllRpms(String distributionDir) {
+        File dir = new File(distributionDir);
+        if (!dir.isDirectory()) {
             try {
                 String completePath = dir.getCanonicalPath();
                 File currentDir = new File(".");

@@ -21,12 +21,11 @@ public class UploadRpmTask extends DefaultTask {
             extension = new ArtifactoryRpmPluginDefaults();
         }
 
-        final String buildDir = getProject().getBuildDir().getCanonicalPath() + "/";
-        String buildDirectory = buildDir + extension.getDistributionDir();
+        String distributionDir = extension.getDistributionDir();
         String repository = extension.getStagingRepo();
         String artifactoryHost = extension.getRepositoryServerUrl();
 
-        List<File> rpms = UploadRpm.getAllRpms(buildDirectory);
+        List<File> rpms = UploadRpm.getAllRpms(distributionDir);
 
         for (File rpm : rpms) {
             Artifact artifact = new Artifact(rpm);
