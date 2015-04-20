@@ -36,6 +36,17 @@ public class UploadRpm {
 
     public static List<File> getAllRpms(String buildDirectory) {
         File dir = new File(buildDirectory);
+        if (! dir.isDirectory()) {
+            try {
+                String completePath = dir.getCanonicalPath();
+                File currentDir = new File(".");
+                String currentDirName = currentDir.getCanonicalPath();
+                throw new UploadRpmException(currentDirName, completePath);
+            } catch (IOException e) {
+                throw new UploadRpmException(e.getMessage(), e);
+            }
+        }
+
         String[] fileExtensions = {"rpm"};
 
         Collection result = FileUtils.listFiles(dir, fileExtensions, false);
