@@ -14,6 +14,7 @@ dependencies {
     compile gradleApi()
 
     testCompile 'junit:junit:4.12'
+    testCompile "org.mockito:mockito-core:1.+"
 }
 
 repositories {
@@ -81,8 +82,4 @@ void fixDependencyScope(pom) {
             it.scope*.value = 'compile'
         }
     }
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.3'
 }
