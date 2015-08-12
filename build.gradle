@@ -1,9 +1,11 @@
-group = 'se.mtm.gradle'
+plugins {
+    id "groovy"
+    id "java"
+    id "maven-publish"
+    id "com.jfrog.artifactory" version "3.1.1"
+}
 
-apply plugin: 'groovy'
-apply plugin: "maven"
-apply plugin: "maven-publish"
-apply plugin: "com.jfrog.artifactory"
+group = 'se.mtm.gradle'
 
 dependencies {
     compile 'org.glassfish.jersey.core:jersey-client:2.16'
@@ -65,11 +67,6 @@ artifactoryPublish.dependsOn(build)
 
 configurations.all {
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
-}
-
-buildscript {
-    repositories { maven { url 'http://repo.jfrog.org/artifactory/libs-release/' } }
-    dependencies { classpath(group: 'org.jfrog.buildinfo', name: 'build-info-extractor-gradle', version: '3.0.1') }
 }
 
 void fixDependencyScope(pom) {
