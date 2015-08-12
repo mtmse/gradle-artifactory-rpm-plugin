@@ -39,7 +39,7 @@ public class PurgeOldRpmTask extends DefaultTask {
     private void purge(Set<Artifact> artifactsToPurge, String artifactoryHost, String repository) {
         Logger logger = getLogger();
         for (Artifact artifact : artifactsToPurge) {
-            PurgeRpm.purge(artifact, repository, artifactoryHost);
+            PurgeRpm.purge(artifact, repository, artifactoryHost, logger);
             logger.lifecycle("Purged " + artifact.getFileName() + " from " + repository + " on " + artifactoryHost);
         }
     }

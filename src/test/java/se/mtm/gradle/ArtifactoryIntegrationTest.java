@@ -1,5 +1,6 @@
 package se.mtm.gradle;
 
+import org.gradle.api.logging.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import se.mtm.gradle.infrastructure.*;
@@ -8,10 +9,12 @@ import java.io.File;
 import java.io.IOException;
 
 import static junit.framework.TestCase.assertTrue;
+import static org.mockito.Mockito.mock;
 
 public class ArtifactoryIntegrationTest {
     private final String repository = "mtm-dev";
     private final String artifactoryHost = "http://artifactory.mtm.se:8081/artifactory";
+    private Logger logger = mock(Logger.class);
 
     @Before
     public void setUp() throws IOException {
@@ -31,7 +34,7 @@ public class ArtifactoryIntegrationTest {
         artifacts = FindRpms.in(repository, artifactoryHost);
         assertTrue("One artifact should have been found", artifacts.getFiles().size() == 1);
 
-        PurgeRpm.purge(artifact, repository, artifactoryHost);
+        PurgeRpm.purge(artifact, repository, artifactoryHost, logger);
 
         artifacts = FindRpms.in(repository, artifactoryHost);
         assertTrue("No artifacts should have been found", artifacts.getFiles().isEmpty());
@@ -40,7 +43,7 @@ public class ArtifactoryIntegrationTest {
     private void clearRepository() throws IOException {
         RepositoryContent artifacts = FindRpms.in(repository, artifactoryHost);
         for (String artifact : artifacts.getFiles()) {
-            PurgeRpm.purge(new Artifact(new File(artifact)), repository, artifactoryHost);
+            PurgeRpm.purge(new Artifact(new File(artifact)), repository, artifactoryHost, logger);
         }
     }
 }

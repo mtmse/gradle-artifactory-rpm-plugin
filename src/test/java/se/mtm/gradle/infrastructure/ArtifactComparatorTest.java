@@ -1,13 +1,16 @@
 package se.mtm.gradle.infrastructure;
 
+import org.gradle.api.logging.Logger;
 import org.junit.Test;
 
 import java.io.File;
 
 import static junit.framework.TestCase.assertTrue;
+import static org.mockito.Mockito.mock;
 
 public class ArtifactComparatorTest {
-    private final ArtifactComparator artifactComparator = new ArtifactComparator();
+    private Logger logger = mock(Logger.class);
+    private final ArtifactComparator artifactComparator = new ArtifactComparator(logger);
 
     @Test
     public void compare_two_different_systems() {

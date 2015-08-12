@@ -1,13 +1,17 @@
 package se.mtm.gradle.infrastructure;
 
+import org.gradle.api.logging.Logger;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import java.util.*;
 
 public class PurgeRpm {
+    private static Logger logger;
 
-    public static void purge(Artifact artifact, String repository, String artifactoryHost) {
+    public static void purge(Artifact artifact, String repository, String artifactoryHost, Logger logger) {
+        PurgeRpm.logger = logger;
         Client artifactoryClient = ArtifactoryClient.authenticated();
         WebTarget target = artifactoryClient.target(artifactoryHost + "/" + repository + "/" + artifact.getFileName());
 
@@ -63,7 +67,7 @@ public class PurgeRpm {
             }
         }
 
-        Comparator<Artifact> artifactComparer = new ArtifactComparator();
+        Comparator<Artifact> artifactComparer = new ArtifactComparator(logger);
         Collections.sort(selectedArtifacts, artifactComparer);
 
         for (int index = 0; index < selectedArtifacts.size() - generationsToKeep; index++) {

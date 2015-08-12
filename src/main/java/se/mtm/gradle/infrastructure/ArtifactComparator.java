@@ -1,8 +1,16 @@
 package se.mtm.gradle.infrastructure;
 
+import org.gradle.api.logging.Logger;
+
 import java.util.Comparator;
 
 class ArtifactComparator implements Comparator<Artifact> {
+    private Logger logger;
+
+    public ArtifactComparator(Logger logger) {
+        this.logger = logger;
+    }
+
     @Override
     public int compare(Artifact lhs, Artifact rhs) {
         String lhsSystem = lhs.getSystemName();
@@ -67,8 +75,14 @@ class ArtifactComparator implements Comparator<Artifact> {
     }
 
     private Integer getInteger(String version, int position) {
-        String[] parts = version.split("\\.");
-        return Integer.parseInt(parts[position]);
+        try {
+            String[] parts = version.split("\\.");
+            return Integer.parseInt(parts[position]);
+        } catch (NumberFormatException e) {
+            String msg = "Tried to parse <" + version + "> for version number " +
+                    "divided by '.' in position <" + position + ">";
+            logger.error(msg, e);
+            throw e;
+        }
     }
-
 }
