@@ -7,8 +7,13 @@ plugins {
 
 group = 'se.mtm.gradle'
 
+project.ext {
+    jerseyVersion = '2.16'
+}
+
 dependencies {
-    compile 'org.glassfish.jersey.core:jersey-client:2.16'
+    compile 'org.glassfish.jersey.core:jersey-client:' + jerseyVersion
+    compile 'org.glassfish.jersey.connectors:jersey-apache-connector:' + jerseyVersion
     compile 'com.fasterxml.jackson.core:jackson-databind:2.5.1'
     compile 'commons-codec:commons-codec:1.10'
     compile 'commons-io:commons-io:2.4'
@@ -64,10 +69,6 @@ artifactoryPublish {
 }
 
 artifactoryPublish.dependsOn(build)
-
-configurations.all {
-    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
-}
 
 void fixDependencyScope(pom) {
     pom.withXml {
