@@ -27,7 +27,7 @@ public class ArtifactoryClient {
     }
 
     public static Response getRepositoryContent(String repository, String artifactoryHost) {
-        Client artifactoryClient = getGrizzlyConnector();
+        Client artifactoryClient = getConnector();
 
         return artifactoryClient.target(artifactoryHost)
                 .path("api/search/pattern")
@@ -46,7 +46,8 @@ public class ArtifactoryClient {
     }
 
     private static Client getConnector() {
-        return getGrizzlyConnector();
+        // return getGrizzlyConnector();
+        return getDefaultConnector();
     }
 
     private static Client getDefaultConnector() {
