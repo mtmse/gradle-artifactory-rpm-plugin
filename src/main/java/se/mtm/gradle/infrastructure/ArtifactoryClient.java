@@ -1,5 +1,6 @@
 package se.mtm.gradle.infrastructure;
 
+import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.glassfish.jersey.grizzly.connector.GrizzlyConnectorProvider;
@@ -47,7 +48,8 @@ public class ArtifactoryClient {
 
     private static Client getConnector() {
         // return getGrizzlyConnector();
-        return getDefaultConnector();
+        return getApacheConnector();
+        // return getDefaultConnector();
     }
 
     private static Client getDefaultConnector() {
@@ -59,6 +61,15 @@ public class ArtifactoryClient {
     private static Client getGrizzlyConnector() {
         ClientConfig clientConfig = new ClientConfig();
         clientConfig.connectorProvider(new GrizzlyConnectorProvider());
+        Client client = ClientBuilder.newClient(clientConfig);
+        client.register(getHttpAuthenticationFeature());
+
+        return client;
+    }
+
+    private static Client getApacheConnector() {
+        ClientConfig clientConfig = new ClientConfig();
+        clientConfig.connectorProvider(new ApacheConnectorProvider());
         Client client = ClientBuilder.newClient(clientConfig);
         client.register(getHttpAuthenticationFeature());
 

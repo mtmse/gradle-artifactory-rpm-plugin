@@ -14,6 +14,7 @@ project.ext {
 dependencies {
     compile 'org.glassfish.jersey.core:jersey-client:' + jerseyVersion
     compile 'org.glassfish.jersey.connectors:jersey-grizzly-connector:' + jerseyVersion
+    compile 'org.glassfish.jersey.connectors:jersey-apache-connector:' + jerseyVersion
     compile 'com.fasterxml.jackson.core:jackson-databind:2.6.1'
     compile 'commons-codec:commons-codec:1.10'
     compile 'commons-io:commons-io:2.4'
