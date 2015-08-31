@@ -16,7 +16,7 @@ dependencies {
     compile 'org.glassfish.jersey.core:jersey-client:' + jerseyVersion
     compile 'org.glassfish.jersey.connectors:jersey-grizzly-connector:' + jerseyVersion
     compile('org.glassfish.jersey.connectors:jersey-apache-connector:' + jerseyVersion) {
-        exclude group: 'org.apache.httpcomponents'
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
     compile 'com.fasterxml.jackson.core:jackson-databind:2.6.1'
     compile 'commons-codec:commons-codec:1.10'
@@ -71,6 +71,10 @@ artifactoryPublish {
 }
 
 artifactoryPublish.dependsOn(build)
+
+test {
+    testLogging.showStandardStreams = true
+}
 
 void fixDependencyScope(pom) {
     pom.withXml {
