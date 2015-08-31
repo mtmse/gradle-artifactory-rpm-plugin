@@ -2,8 +2,6 @@ package se.mtm.gradle.infrastructure;
 
 import org.gradle.api.logging.Logger;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import java.util.*;
 
@@ -12,12 +10,7 @@ public class PurgeRpm {
 
     public static void purge(Artifact artifact, String repository, String artifactoryHost, Logger logger) {
         PurgeRpm.logger = logger;
-        Client artifactoryClient = ArtifactoryClient.authenticated();
-        WebTarget target = artifactoryClient.target(artifactoryHost + "/" + repository + "/" + artifact.getFileName());
-
-        Response response = target
-                .request()
-                .delete();
+        Response response = ArtifactoryClient.purgeOld(artifact, repository, artifactoryHost);
 
         if (response.getStatus() != 204) {
             throw new PurgeRpmException(artifact, repository, artifactoryHost);

@@ -1,5 +1,7 @@
 package se.mtm.gradle.infrastructure;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 
 public class Artifact {
@@ -46,6 +48,12 @@ public class Artifact {
         String artifactTail = findTail(parts);
 
         return finRelease(artifactTail);
+    }
+
+    public String getSize() {
+        long size = FileUtils.sizeOf(file);
+
+        return FileUtils.byteCountToDisplaySize(size);
     }
 
     private String findTail(String[] parts) {

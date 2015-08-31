@@ -3,9 +3,7 @@ package se.mtm.gradle.infrastructure;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
 
-import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
@@ -21,13 +19,8 @@ public class UploadRpm {
         String md5Hash = DigestUtils.md5Hex(resourceAsStream);
 
         Entity<File> entity = Entity.entity(artifact.getFile(), MediaType.APPLICATION_OCTET_STREAM_TYPE);
-        Client artifactoryClient = ArtifactoryClient.authenticated();
-        WebTarget target = artifactoryClient.target(artifactoryHost + "/" + repository + "/" + artifact.getFileName());
 
-        Response response = target
-                .request()
-                .header("X-Checksum-Md5", md5Hash)
-                .put(entity);
+        Response response = ArtifactoryClient.upLoad(artifact, repository, artifactoryHost, md5Hash, entity);
 
         if (response.getStatus() != 201) {
             throw new DeployRpmException(artifact, repository, artifactoryHost);

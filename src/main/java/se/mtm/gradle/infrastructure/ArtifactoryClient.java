@@ -1,17 +1,66 @@
 package se.mtm.gradle.infrastructure;
 
+import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
+import org.glassfish.jersey.grizzly.connector.GrizzlyConnectorProvider;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.io.File;
 
-class ArtifactoryClient {
+public class ArtifactoryClient {
     private static final String ARTIFACTORY_USER = "ARTIFACTORY_USER";
     private static final String ARTIFACTORY_PASSWORD = "ARTIFACTORY_PASSWORD";
 
-    static Client authenticated() {
+    public static Response upLoad(Artifact artifact, String repository, String artifactoryHost, String md5Hash, Entity<File> entity) {
+        Client artifactoryClient = ArtifactoryClient.getConnector();
+        WebTarget target = artifactoryClient.target(artifactoryHost + "/" + repository + "/" + artifact.getFileName());
+
+        return target
+                .request()
+                .header("X-Checksum-Md5", md5Hash)
+                .put(entity);
+    }
+
+    public static Response getRepositoryContent(String repository, String artifactoryHost) {
+        Client artifactoryClient = getGrizzlyConnector();
+
+        return artifactoryClient.target(artifactoryHost)
+                .path("api/search/pattern")
+                .queryParam("pattern", repository + ":*.rpm")
+                .request(MediaType.APPLICATION_JSON_TYPE)
+                .get();
+    }
+
+    public static Response purgeOld(Artifact artifact, String repository, String artifactoryHost) {
+        Client artifactoryClient = ArtifactoryClient.getConnector();
+        WebTarget target = artifactoryClient.target(artifactoryHost + "/" + repository + "/" + artifact.getFileName());
+
+        return target
+                .request()
+                .delete();
+    }
+
+    private static Client getConnector() {
+        return getGrizzlyConnector();
+    }
+
+    private static Client getDefaultConnector() {
         Client client = ClientBuilder.newClient();
         client.register(getHttpAuthenticationFeature());
+        return client;
+    }
+
+    private static Client getGrizzlyConnector() {
+        ClientConfig clientConfig = new ClientConfig();
+        clientConfig.connectorProvider(new GrizzlyConnectorProvider());
+        Client client = ClientBuilder.newClient(clientConfig);
+        client.register(getHttpAuthenticationFeature());
+
         return client;
     }
 

@@ -30,6 +30,7 @@ public class DeployRpmTask extends DefaultTask {
 
         for (File rpm : rpms) {
             Artifact artifact = new Artifact(rpm);
+            logger.lifecycle("Uploading " + artifact.getFileName() + " " + artifact.getSize() + " to " + repository + " on " + artifactoryHost);
             UploadRpm.to(artifact, repository, artifactoryHost);
             logger.lifecycle("Uploaded " + artifact.getFileName() + " to " + repository + " on " + artifactoryHost);
         }
