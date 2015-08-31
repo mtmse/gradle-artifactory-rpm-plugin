@@ -51,7 +51,7 @@ public class Artifact {
     }
 
     public String getSize() {
-        long size = FileUtils.sizeOf(file);
+        long size = file.length();
 
         return FileUtils.byteCountToDisplaySize(size);
     }
