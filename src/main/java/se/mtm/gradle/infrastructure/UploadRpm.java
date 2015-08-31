@@ -4,7 +4,6 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
 
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
 import java.io.IOException;
@@ -18,7 +17,7 @@ public class UploadRpm {
         InputStream resourceAsStream = FileUtils.openInputStream(artifact.getFile());
         String md5Hash = DigestUtils.md5Hex(resourceAsStream);
 
-        Entity<File> entity = Entity.entity(artifact.getFile(), MediaType.APPLICATION_OCTET_STREAM_TYPE);
+        Entity<File> entity = Entity.entity(artifact.getFile(), "application/octet-stream");
 
         Response response = ArtifactoryClient.upLoad(artifact, repository, artifactoryHost, md5Hash, entity);
 
