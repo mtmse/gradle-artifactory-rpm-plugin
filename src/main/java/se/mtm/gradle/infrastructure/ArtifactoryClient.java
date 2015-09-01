@@ -92,10 +92,8 @@ public class ArtifactoryClient {
 
     private static HttpAuthenticationFeature getHttpAuthenticationFeature() {
         String user = System.getenv(ARTIFACTORY_USER);
-        user = "admin";
 
         String password = System.getenv(ARTIFACTORY_PASSWORD);
-        password = "blackflag#";
 
         if (user == null) {
             throw new CredentialsMissingException("The environment variable " + ARTIFACTORY_USER + " must be set and contain a username for a user that has credentials to upload artifacts to Artifactory");
