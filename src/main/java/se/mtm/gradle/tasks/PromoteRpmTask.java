@@ -35,7 +35,7 @@ public class PromoteRpmTask extends DefaultTask {
             logger.lifecycle("Promoting " + artifact.getFileName() + " " + artifact.getSize() + " from " + stagingRepo + " to " + promotionRepo + " on " + artifactoryHost);
             long start = System.currentTimeMillis();
             UploadRpm.to(artifact, promotionRepo, artifactoryHost);
-            PurgeRpm.purge(artifact, stagingRepo, artifactoryHost, logger);
+            PurgeRpm.purge(artifact, stagingRepo, artifactoryHost);
             long stop = System.currentTimeMillis();
             long duration = stop - start;
             logger.lifecycle("Promoted " + artifact.getFileName() + " from " + stagingRepo + " to " + promotionRepo + " on " + artifactoryHost + " at " + artifact.getUploadSpeed(duration));

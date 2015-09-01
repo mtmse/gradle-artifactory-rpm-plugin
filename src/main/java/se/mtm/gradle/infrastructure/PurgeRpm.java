@@ -2,19 +2,11 @@ package se.mtm.gradle.infrastructure;
 
 import org.gradle.api.logging.Logger;
 
-import javax.ws.rs.core.Response;
 import java.util.*;
 
 public class PurgeRpm {
-    private static Logger logger;
-
-    public static void purge(Artifact artifact, String repository, String artifactoryHost, Logger logger) {
-        PurgeRpm.logger = logger;
-        Response response = ArtifactoryClient.purgeOld(artifact, repository, artifactoryHost);
-
-        if (response.getStatus() != 204) {
-            throw new PurgeRpmException(artifact, repository, artifactoryHost);
-        }
+    public static void purge(Artifact artifact, String repository, String artifactoryHost) {
+        ArtifactoryClient.purgeOld(artifact, repository, artifactoryHost);
     }
 
     /**
@@ -24,14 +16,14 @@ public class PurgeRpm {
      * @param generationsToKeep how many generations back should be saved?
      * @return a set of artifacts that could be purged
      */
-    public static Set<Artifact> getArtifactsToPurge(RepositoryContent content, int generationsToKeep) {
+    public static Set<Artifact> getArtifactsToPurge(RepositoryContent content, int generationsToKeep, Logger logger) {
         List<Artifact> artifacts = content.getArtifacts();
 
         Set<String> systems = getSystems(artifacts);
 
         Set<Artifact> artifactsToPurge = new HashSet<>();
         for (String systemName : systems) {
-            List<Artifact> artifactsForSystem = selectArtifacts(artifacts, systemName, generationsToKeep);
+            List<Artifact> artifactsForSystem = selectArtifacts(artifacts, systemName, generationsToKeep, logger);
             artifactsToPurge.addAll(artifactsForSystem);
         }
 
@@ -49,7 +41,7 @@ public class PurgeRpm {
         return systems;
     }
 
-    private static List<Artifact> selectArtifacts(List<Artifact> artifacts, String systemName, int generationsToKeep) {
+    private static List<Artifact> selectArtifacts(List<Artifact> artifacts, String systemName, int generationsToKeep, Logger logger) {
         List<Artifact> artifactsToPurge = new LinkedList<>();
 
         List<Artifact> selectedArtifacts = new LinkedList<>();

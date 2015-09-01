@@ -1,5 +1,6 @@
 package se.mtm.gradle.infrastructure;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
 import org.glassfish.jersey.client.ClientConfig;
@@ -31,7 +32,6 @@ public class ArtifactoryClient {
 
         Response response = target
                 .request()
-                        // .header("X-Checksum-Md5", md5Hash)
                 .put(entity);
 
         if (response.getStatus() != 201) {
@@ -39,28 +39,39 @@ public class ArtifactoryClient {
         }
     }
 
-    public static Response getRepositoryContent(String repository, String artifactoryHost) {
+    public static RepositoryContent getRepositoryContent(String repository, String artifactoryHost) throws IOException {
         Client artifactoryClient = getConnector();
 
-        return artifactoryClient.target(artifactoryHost)
+        Response response = artifactoryClient.target(artifactoryHost)
                 .path("api/search/pattern")
                 .queryParam("pattern", repository + ":*.rpm")
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .get();
+
+        if (response.getStatus() != 200) {
+            throw new FindRpmException(repository, artifactoryHost);
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        String repositoryContentJson = response.readEntity(String.class);
+        return mapper.readValue(repositoryContentJson, RepositoryContent.class);
     }
 
-    public static Response purgeOld(Artifact artifact, String repository, String artifactoryHost) {
+    public static void purgeOld(Artifact artifact, String repository, String artifactoryHost) {
         Client artifactoryClient = ArtifactoryClient.getConnector();
         WebTarget target = artifactoryClient.target(artifactoryHost + "/" + repository + "/" + artifact.getFileName());
 
-        return target
+        Response response = target
                 .request()
                 .delete();
+
+        if (response.getStatus() != 204) {
+            throw new PurgeRpmException(artifact, repository, artifactoryHost);
+        }
     }
 
     private static Client getConnector() {
         return getGrizzlyConnector();
-        // return getApacheConnector();
         // return getDefaultConnector();
     }
 
@@ -78,17 +89,6 @@ public class ArtifactoryClient {
 
         return client;
     }
-
-    /*
-    private static Client getApacheConnector() {
-        ClientConfig clientConfig = new ClientConfig();
-        clientConfig.connectorProvider(new ApacheConnectorProvider());
-        Client client = ClientBuilder.newClient(clientConfig);
-        client.register(getHttpAuthenticationFeature());
-
-        return client;
-    }
-    */
 
     private static HttpAuthenticationFeature getHttpAuthenticationFeature() {
         String user = System.getenv(ARTIFACTORY_USER);

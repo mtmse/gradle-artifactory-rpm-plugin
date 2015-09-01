@@ -1,5 +1,6 @@
 package se.mtm.gradle.infrastructure;
 
+import org.gradle.api.logging.Logger;
 import org.junit.Test;
 
 import java.io.File;
@@ -10,6 +11,7 @@ import java.util.Set;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
 
 public class PurgeRpmTest {
     @Test
@@ -19,8 +21,9 @@ public class PurgeRpmTest {
 
         RepositoryContent content = getTinyRepositoryContent();
         int generationsToKeep = 1;
+        Logger logger = mock(Logger.class);
 
-        Set<Artifact> actualArtifacts = PurgeRpm.getArtifactsToPurge(content, generationsToKeep);
+        Set<Artifact> actualArtifacts = PurgeRpm.getArtifactsToPurge(content, generationsToKeep, logger);
 
         assertThat(actualArtifacts, is(expectedArtifacts));
     }
@@ -44,8 +47,9 @@ public class PurgeRpmTest {
 
         RepositoryContent content = getTwoArtifactTypeRepositoryContent();
         int generationsToKeep = 1;
+        Logger logger = mock(Logger.class);
 
-        Set<Artifact> actualArtifacts = PurgeRpm.getArtifactsToPurge(content, generationsToKeep);
+        Set<Artifact> actualArtifacts = PurgeRpm.getArtifactsToPurge(content, generationsToKeep, logger);
 
         assertThat(actualArtifacts, is(expectedArtifacts));
     }
@@ -97,8 +101,9 @@ public class PurgeRpmTest {
 
         RepositoryContent content = getLargeRepositoryContent();
         int generationsToKeep = 1;
+        Logger logger = mock(Logger.class);
 
-        Set<Artifact> actualArtifacts = PurgeRpm.getArtifactsToPurge(content, generationsToKeep);
+        Set<Artifact> actualArtifacts = PurgeRpm.getArtifactsToPurge(content, generationsToKeep, logger);
 
         assertThat(actualArtifacts, is(expectedArtifacts));
     }
