@@ -21,4 +21,16 @@ public class ArtifactTest {
         assertThat(actual, is(expected));
     }
 
+    @Test
+    public void get_upload_speed() {
+        String expected = "10 Kb/s";
+
+        URL testRpm = getClass().getResource("/rpm-to-artifactory-example-1.0.0-1.noarch.rpm");
+        Artifact artifact = new Artifact(new File(testRpm.getFile()));
+
+        String actual = artifact.getUploadSpeed(300);
+
+        assertThat(actual, is(expected));
+    }
+
 }

@@ -56,6 +56,23 @@ public class Artifact {
         return FileUtils.byteCountToDisplaySize(size);
     }
 
+    /**
+     * @param duration in milliseconds
+     */
+    public String getUploadSpeed(long duration) {
+        long size = file.length();
+
+        size = size / FileUtils.ONE_KB;
+
+        float durationInSeconds = duration / 1000f;
+        if (durationInSeconds == 0) {
+            durationInSeconds = 1f;
+        }
+        long speed = (long) (size / durationInSeconds);
+
+        return speed + " Kb/s";
+    }
+
     private String findTail(String[] parts) {
         String artifactTail = "";
         String version = getVersion();
