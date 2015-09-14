@@ -71,8 +71,8 @@ public class ArtifactoryClient {
     }
 
     private static Client getConnector() {
-        return getGrizzlyConnector();
-        // return getDefaultConnector();
+        // return getGrizzlyConnector();
+        return getDefaultConnector();
     }
 
     private static Client getDefaultConnector() {
