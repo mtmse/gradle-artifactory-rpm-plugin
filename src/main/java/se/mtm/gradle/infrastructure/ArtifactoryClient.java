@@ -70,6 +70,19 @@ public class ArtifactoryClient {
         }
     }
 
+    public static void triggerIndexRecalculation(String repository, String artifactoryHost) {
+        Client artifactoryClient = getConnector();
+
+        Response response = artifactoryClient.target(artifactoryHost)
+                .path("api/yum/" + repository)
+                .request(MediaType.TEXT_PLAIN)
+                .post(Entity.entity(null, "application/text"));
+
+        if (response.getStatus() != 200) {
+            throw new RecalculateYumIndexException(repository, artifactoryHost);
+        }
+    }
+
     private static Client getConnector() {
         // return getGrizzlyConnector();
         return getDefaultConnector();

@@ -5,6 +5,7 @@ import org.gradle.api.logging.Logger;
 import org.gradle.api.tasks.TaskAction;
 import se.mtm.gradle.extensions.ArtifactoryRpmPluginDefaults;
 import se.mtm.gradle.infrastructure.Artifact;
+import se.mtm.gradle.infrastructure.RecalculateYumIndex;
 import se.mtm.gradle.infrastructure.UploadRpm;
 
 import java.io.File;
@@ -37,5 +38,7 @@ public class DeployRpmTask extends DefaultTask {
             long duration = stop - start;
             logger.lifecycle("Uploaded " + artifact.getFileName() + " to " + repository + " on " + artifactoryHost + " at " + artifact.getUploadSpeed(duration));
         }
+
+        RecalculateYumIndex.trigger(repository, artifactoryHost);
     }
 }

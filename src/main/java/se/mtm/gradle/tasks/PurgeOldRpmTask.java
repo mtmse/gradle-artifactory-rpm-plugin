@@ -4,10 +4,7 @@ import org.gradle.api.DefaultTask;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.tasks.TaskAction;
 import se.mtm.gradle.extensions.ArtifactoryRpmPluginDefaults;
-import se.mtm.gradle.infrastructure.Artifact;
-import se.mtm.gradle.infrastructure.FindRpms;
-import se.mtm.gradle.infrastructure.PurgeRpm;
-import se.mtm.gradle.infrastructure.RepositoryContent;
+import se.mtm.gradle.infrastructure.*;
 
 import java.io.IOException;
 import java.util.Set;
@@ -29,6 +26,7 @@ public class PurgeOldRpmTask extends DefaultTask {
         for (String repository : repositories) {
             Set<Artifact> artifactsToPurge = findArtifacts(repository, artifactoryHost, generationsToKeep, logger);
             purge(artifactsToPurge, artifactoryHost, repository, logger);
+            RecalculateYumIndex.trigger(repository, artifactoryHost);
         }
     }
 

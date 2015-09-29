@@ -6,6 +6,7 @@ import org.gradle.api.tasks.TaskAction;
 import se.mtm.gradle.extensions.ArtifactoryRpmPluginDefaults;
 import se.mtm.gradle.infrastructure.Artifact;
 import se.mtm.gradle.infrastructure.PurgeRpm;
+import se.mtm.gradle.infrastructure.RecalculateYumIndex;
 import se.mtm.gradle.infrastructure.UploadRpm;
 
 import java.io.File;
@@ -40,5 +41,8 @@ public class PromoteRpmTask extends DefaultTask {
             long duration = stop - start;
             logger.lifecycle("Promoted " + artifact.getFileName() + " from " + stagingRepo + " to " + promotionRepo + " on " + artifactoryHost + " at " + artifact.getUploadSpeed(duration));
         }
+
+        RecalculateYumIndex.trigger(stagingRepo, artifactoryHost);
+        RecalculateYumIndex.trigger(promotionRepo, artifactoryHost);
     }
 }

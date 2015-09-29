@@ -31,6 +31,8 @@ public class ArtifactoryIntegrationTest {
         artifacts = FindRpms.in(repository, artifactoryHost);
         assertTrue("One artifact should have been found", artifacts.getFiles().size() == 1);
 
+        RecalculateYumIndex.trigger(repository, artifactoryHost);
+
         PurgeRpm.purge(artifact, repository, artifactoryHost);
 
         artifacts = FindRpms.in(repository, artifactoryHost);
