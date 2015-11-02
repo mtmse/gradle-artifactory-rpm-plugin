@@ -3,7 +3,7 @@ package se.mtm.gradle.tasks;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.tasks.TaskAction;
-import se.mtm.gradle.extensions.ArtifactoryRpmPluginDefaults;
+import se.mtm.gradle.extensions.PluginDefaults;
 import se.mtm.gradle.infrastructure.*;
 
 import java.io.IOException;
@@ -12,10 +12,10 @@ import java.util.Set;
 public class PurgeOldRpmTask extends DefaultTask {
     @TaskAction
     public void purgeOldRpm() throws IOException {
-        ArtifactoryRpmPluginDefaults extension = getProject().getExtensions().findByType(ArtifactoryRpmPluginDefaults.class);
+        PluginDefaults extension = getProject().getExtensions().findByType(PluginDefaults.class);
 
         if (extension == null) {
-            extension = new ArtifactoryRpmPluginDefaults();
+            extension = new PluginDefaults();
         }
 
         String[] repositories = extension.getPurgeRepos();

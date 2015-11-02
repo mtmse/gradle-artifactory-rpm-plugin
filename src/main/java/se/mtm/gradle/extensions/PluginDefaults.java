@@ -3,9 +3,8 @@ package se.mtm.gradle.extensions;
 import se.mtm.gradle.infrastructure.ConfigurationException;
 
 import java.io.File;
-import java.io.IOException;
 
-public class ArtifactoryRpmPluginDefaults {
+public class PluginDefaults {
     private String repositoryServerUrl = "http://artifactory.mtm.se:8081/artifactory";
     private String stagingRepo = "mtm-staging";
     private String promotionRepo = "mtm-utv";
@@ -16,7 +15,7 @@ public class ArtifactoryRpmPluginDefaults {
     boolean isDistributionDirChanged = false;
     private File buildDir;
 
-    public ArtifactoryRpmPluginDefaults() {
+    public PluginDefaults() {
         purgeRepos = new String[2];
         purgeRepos[0] = stagingRepo;
         purgeRepos[1] = promotionRepo;

@@ -3,7 +3,7 @@ package se.mtm.gradle.tasks;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.tasks.TaskAction;
-import se.mtm.gradle.extensions.ArtifactoryRpmPluginDefaults;
+import se.mtm.gradle.extensions.PluginDefaults;
 import se.mtm.gradle.infrastructure.Artifact;
 import se.mtm.gradle.infrastructure.PurgeRpm;
 import se.mtm.gradle.infrastructure.RecalculateYumIndex;
@@ -17,10 +17,10 @@ public class PromoteRpmTask extends DefaultTask {
     @TaskAction
     public void promoteRpm() throws IOException {
         Logger logger = getLogger();
-        ArtifactoryRpmPluginDefaults extension = getProject().getExtensions().findByType(ArtifactoryRpmPluginDefaults.class);
+        PluginDefaults extension = getProject().getExtensions().findByType(PluginDefaults.class);
 
         if (extension == null) {
-            extension = new ArtifactoryRpmPluginDefaults();
+            extension = new PluginDefaults();
         }
         extension.setBuildDir(getProject().getBuildDir());
 
