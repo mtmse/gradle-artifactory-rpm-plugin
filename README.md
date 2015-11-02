@@ -81,7 +81,7 @@ as environment variables in Jenkins. You find the settings by following these me
 
 Build
 
-`./gradlew build install`
+`./gradlew clean build publishToMavenLocal --daemon`
 
 ## Resources
 
