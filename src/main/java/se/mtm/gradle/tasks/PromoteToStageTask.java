@@ -23,13 +23,14 @@ public class PromoteToStageTask extends DefaultTask {
         String repository = extension.getStageRepo();
         String artifactoryHost = extension.getRepositoryServerUrl();
 
+        String packageName = getProject().getName();
         Logger logger = getLogger();
-        File rpm = getLatestRpm(extension, logger);
+        File rpm = getLatestRpm(packageName, extension, logger);
 
         uploadRpm(rpm, repository, artifactoryHost, logger);
 
         int generations = extension.getGenerationsToKeep();
-        purge(repository, artifactoryHost, generations, logger);
+        purge(packageName, repository, artifactoryHost, generations, logger);
 
         RecalculateYumIndex.trigger(repository, artifactoryHost);
     }
@@ -44,18 +45,19 @@ public class PromoteToStageTask extends DefaultTask {
         logger.lifecycle("Uploaded " + artifact.getFileName() + " to " + repository + " on " + artifactoryHost + " at " + artifact.getUploadSpeed(duration));
     }
 
-    private void purge(String repository, String artifactoryHost, int generations, Logger logger) throws IOException {
+    private void purge(String packageName, String repository, String artifactoryHost, int generations, Logger logger) throws IOException {
         RepositoryContent allRpms = FindRpms.in(repository, artifactoryHost);
         Set<Artifact> artifactsToPurge = PurgeRpm.getArtifactsToPurge(allRpms, generations, logger);
 
         for (Artifact artifact : artifactsToPurge) {
-            PurgeRpm.purge(artifact, repository, artifactoryHost);
+            if (artifact.getPackageName().equals(packageName)) {
+                PurgeRpm.purge(artifact, repository, artifactoryHost);
+            }
         }
     }
 
-    private File getLatestRpm(PluginDefaults extension, Logger logger) {
+    private File getLatestRpm(String packageName, PluginDefaults extension, Logger logger) {
         String distributionDir = extension.getDistributionDir();
-        String packageName = getProject().getName();
 
         return UploadRpm.getLatestRpm(packageName, distributionDir, logger);
     }
