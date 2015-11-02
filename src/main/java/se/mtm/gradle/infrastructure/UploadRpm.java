@@ -1,12 +1,11 @@
 package se.mtm.gradle.infrastructure;
 
 import org.apache.commons.io.FileUtils;
+import org.gradle.api.logging.Logger;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class UploadRpm {
     public static void to(Artifact artifact, String repository, String artifactoryHost) throws IOException {
@@ -36,5 +35,23 @@ public class UploadRpm {
         }
 
         return rpms;
+    }
+
+    public static File getLatestRpm(String packageName, String distributionDir, Logger logger) {
+        List<File> allRpms = getAllRpms(distributionDir);
+
+        List<Artifact> allArtifacts = new ArrayList<>();
+        for (File rpm : allRpms) {
+            Artifact candidate = new Artifact(rpm);
+            if (candidate.getPackageName().equals(packageName)) {
+                allArtifacts.add(candidate);
+            }
+        }
+
+        Comparator<Artifact> artifactComparer = new ArtifactComparator(logger);
+        Collections.sort(allArtifacts, artifactComparer);
+        Collections.reverse(allArtifacts);
+
+        return allArtifacts.get(0).getFile();
     }
 }

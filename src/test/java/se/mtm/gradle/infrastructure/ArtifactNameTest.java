@@ -52,7 +52,7 @@ public class ArtifactNameTest {
     public void get_system_name() {
         Artifact artifact = new Artifact(new File(artifactName));
 
-        String actual = artifact.getSystemName();
+        String actual = artifact.getPackageName();
 
         assertThat(actual, is(expectedSystemName));
     }

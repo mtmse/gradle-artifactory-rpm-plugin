@@ -8,13 +8,13 @@ public class PluginDefaults {
     private String repositoryServerUrl = "http://artifactory.mtm.se:8081/artifactory";
     private String stagingRepo = "mtm-staging";
     private String stageRepo = "mtm-staging";
-    private String devRepo = "mtm-utv";
+    private String utvRepo = "mtm-utv";
     private String testRepo = "mtm-test";
     private String prodRepo = "mtm-production";
     private String promotionRepo = "mtm-utv";
     private String[] purgeRepos;
     private String distributionDir = "distributions";
-    private int generationsToKeep = 1;
+    private int generationsToKeep = 3;
 
     boolean isDistributionDirChanged = false;
     private File buildDir;
@@ -41,12 +41,12 @@ public class PluginDefaults {
         this.stageRepo = stageRepo;
     }
 
-    public String getDevRepo() {
-        return devRepo;
+    public String getUtvRepo() {
+        return utvRepo;
     }
 
-    public void setDevRepo(String devRepo) {
-        this.devRepo = devRepo;
+    public void setUtvRepo(String utvRepo) {
+        this.utvRepo = utvRepo;
     }
 
     public String getTestRepo() {

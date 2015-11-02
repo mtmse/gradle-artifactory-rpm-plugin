@@ -13,8 +13,8 @@ class ArtifactComparator implements Comparator<Artifact> {
 
     @Override
     public int compare(Artifact lhs, Artifact rhs) {
-        String lhsSystem = lhs.getSystemName();
-        String rhsSystem = rhs.getSystemName();
+        String lhsSystem = lhs.getPackageName();
+        String rhsSystem = rhs.getPackageName();
         if (lhsSystem.compareTo(rhsSystem) != 0) {
             return lhsSystem.compareTo(rhsSystem);
         }

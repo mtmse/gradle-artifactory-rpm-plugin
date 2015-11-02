@@ -3,9 +3,7 @@ package se.mtm.gradle
 import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Test
-import se.mtm.gradle.tasks.PromoteRpmTask
-import se.mtm.gradle.tasks.PurgeOldRpmTask
-import se.mtm.gradle.tasks.DeployRpmTask
+import se.mtm.gradle.tasks.*
 
 import static org.junit.Assert.assertTrue
 
@@ -15,6 +13,11 @@ class ArtifactoryRpmPluginTest {
         Project project = ProjectBuilder.builder().build()
 
         project.getPlugins().apply 'se.mtm.artifactory-rpm'
+
+        assertTrue(project.tasks.promoteToStage instanceof PromoteToStageTask)
+        assertTrue(project.tasks.promoteToUtv instanceof PromoteToUtvTask)
+        assertTrue(project.tasks.promoteToTest instanceof PromoteToTestTask)
+        assertTrue(project.tasks.promoteToProd instanceof PromoteToProdTask)
 
         assertTrue(project.tasks.deployRpm instanceof DeployRpmTask)
         assertTrue(project.tasks.promoteRpm instanceof PromoteRpmTask)

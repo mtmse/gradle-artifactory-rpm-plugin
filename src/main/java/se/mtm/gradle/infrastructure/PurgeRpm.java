@@ -34,7 +34,7 @@ public class PurgeRpm {
         Set<String> systems = new HashSet<>();
 
         for (Artifact artifact : artifacts) {
-            String systemName = artifact.getSystemName();
+            String systemName = artifact.getPackageName();
             systems.add(systemName);
         }
 
@@ -47,7 +47,7 @@ public class PurgeRpm {
         List<Artifact> selectedArtifacts = new LinkedList<>();
 
         for (Artifact artifact : artifacts) {
-            if (artifact.getSystemName().equals(systemName)) {
+            if (artifact.getPackageName().equals(systemName)) {
                 selectedArtifacts.add(artifact);
             }
         }

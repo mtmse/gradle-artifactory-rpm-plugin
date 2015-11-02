@@ -20,7 +20,7 @@ public class Artifact {
         return file.getName();
     }
 
-    public String getSystemName() {
+    public String getPackageName() {
         String completeName = getFileName();
         String version = getVersion();
 
