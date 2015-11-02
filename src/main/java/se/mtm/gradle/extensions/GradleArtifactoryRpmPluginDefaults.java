@@ -4,7 +4,7 @@ import se.mtm.gradle.infrastructure.ConfigurationException;
 
 import java.io.File;
 
-public class PluginDefaults {
+public class GradleArtifactoryRpmPluginDefaults {
     private String repositoryServerUrl = "http://artifactory.mtm.se:8081/artifactory";
     private String stagingRepo = "mtm-staging";
     private String stageRepo = "mtm-staging";
@@ -19,7 +19,7 @@ public class PluginDefaults {
     boolean isDistributionDirChanged = false;
     private File buildDir;
 
-    public PluginDefaults() {
+    public GradleArtifactoryRpmPluginDefaults() {
         purgeRepos = new String[2];
         purgeRepos[0] = stagingRepo;
         purgeRepos[1] = promotionRepo;

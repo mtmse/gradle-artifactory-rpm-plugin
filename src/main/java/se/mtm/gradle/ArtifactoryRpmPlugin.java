@@ -2,7 +2,7 @@ package se.mtm.gradle;
 
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
-import se.mtm.gradle.extensions.PluginDefaults;
+import se.mtm.gradle.extensions.GradleArtifactoryRpmPluginDefaults;
 import se.mtm.gradle.tasks.*;
 
 import javax.inject.Inject;
@@ -14,7 +14,7 @@ class ArtifactoryRpmPlugin implements Plugin<Project> {
 
     @Override
     public void apply(Project project) {
-        project.getExtensions().create("artifactoryRpm", PluginDefaults.class);
+        project.getExtensions().create("artifactoryRpm", GradleArtifactoryRpmPluginDefaults.class);
 
         project.getTasks().create("promoteToStage", PromoteToStageTask.class);
         project.getTasks().create("promoteToUtv", PromoteToUtvTask.class);

@@ -3,7 +3,7 @@ package se.mtm.gradle.tasks;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.tasks.TaskAction;
-import se.mtm.gradle.extensions.PluginDefaults;
+import se.mtm.gradle.extensions.GradleArtifactoryRpmPluginDefaults;
 import se.mtm.gradle.infrastructure.*;
 
 import java.io.File;
@@ -13,10 +13,10 @@ import java.util.Set;
 public class PromoteToStageTask extends DefaultTask {
     @TaskAction
     public void promote() throws IOException {
-        PluginDefaults extension = getProject().getExtensions().findByType(PluginDefaults.class);
+        GradleArtifactoryRpmPluginDefaults extension = getProject().getExtensions().findByType(GradleArtifactoryRpmPluginDefaults.class);
 
         if (extension == null) {
-            extension = new PluginDefaults();
+            extension = new GradleArtifactoryRpmPluginDefaults();
         }
         extension.setBuildDir(getProject().getBuildDir());
 
@@ -56,7 +56,7 @@ public class PromoteToStageTask extends DefaultTask {
         }
     }
 
-    private File getLatestRpm(String packageName, PluginDefaults extension, Logger logger) {
+    private File getLatestRpm(String packageName, GradleArtifactoryRpmPluginDefaults extension, Logger logger) {
         String distributionDir = extension.getDistributionDir();
 
         return UploadRpm.getLatestRpm(packageName, distributionDir, logger);
