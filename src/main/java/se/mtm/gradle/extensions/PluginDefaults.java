@@ -7,6 +7,10 @@ import java.io.File;
 public class PluginDefaults {
     private String repositoryServerUrl = "http://artifactory.mtm.se:8081/artifactory";
     private String stagingRepo = "mtm-staging";
+    private String stageRepo = "mtm-staging";
+    private String devRepo = "mtm-utv";
+    private String testRepo = "mtm-test";
+    private String prodRepo = "mtm-production";
     private String promotionRepo = "mtm-utv";
     private String[] purgeRepos;
     private String distributionDir = "distributions";
@@ -27,6 +31,38 @@ public class PluginDefaults {
 
     public void setRepositoryServerUrl(String repositoryServerUrl) {
         this.repositoryServerUrl = repositoryServerUrl;
+    }
+
+    public String getStageRepo() {
+        return stageRepo;
+    }
+
+    public void setStageRepo(String stageRepo) {
+        this.stageRepo = stageRepo;
+    }
+
+    public String getDevRepo() {
+        return devRepo;
+    }
+
+    public void setDevRepo(String devRepo) {
+        this.devRepo = devRepo;
+    }
+
+    public String getTestRepo() {
+        return testRepo;
+    }
+
+    public void setTestRepo(String testRepo) {
+        this.testRepo = testRepo;
+    }
+
+    public String getProdRepo() {
+        return prodRepo;
+    }
+
+    public void setProdRepo(String prodRepo) {
+        this.prodRepo = prodRepo;
     }
 
     public String getStagingRepo() {
