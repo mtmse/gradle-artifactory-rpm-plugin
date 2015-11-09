@@ -23,6 +23,8 @@ public class UploadRpmTest {
         String dir = "src/test/resources";
         List<File> expected = new LinkedList<>();
         expected.add(new File("src/test/resources/rpm-to-artifactory-example-1.0.0-1.noarch.rpm"));
+        expected.add(new File("src/test/resources/rpm-to-artifactory-example-1.0.0-2.noarch.rpm"));
+        expected.add(new File("src/test/resources/rpm-to-artifactory-example-1.0.0-3.noarch.rpm"));
 
         List<File> actualRpms = UploadRpm.getAllRpms(dir);
 

@@ -1,65 +1,21 @@
 package se.mtm.gradle.infrastructure;
 
-import org.gradle.api.logging.Logger;
-
-import java.util.*;
+import java.util.Set;
 
 public class PurgeRpm {
-    public static void purge(Artifact artifact, String repository, String artifactoryHost) {
+    public static void purge(Artifact artifact, String repository, String artifactoryHost, int generationsToKeep) {
         ArtifactoryClient.purgeOld(artifact, repository, artifactoryHost);
     }
 
     /**
-     * Return a set of artifacts that should be purged. Do not purge all artifacts, leave the newest generations.
+     * Return a set of artifacts that should be purged.
      *
+     * @param packageName       the package that should be considered. Do not purge packages you don't really own.
      * @param content           the content in repository
      * @param generationsToKeep how many generations back should be saved?
      * @return a set of artifacts that could be purged
      */
-    public static Set<Artifact> getArtifactsToPurge(RepositoryContent content, int generationsToKeep, Logger logger) {
-        List<Artifact> artifacts = content.getArtifacts();
-
-        Set<String> systems = getSystems(artifacts);
-
-        Set<Artifact> artifactsToPurge = new HashSet<>();
-        for (String systemName : systems) {
-            List<Artifact> artifactsForSystem = selectArtifacts(artifacts, systemName, generationsToKeep, logger);
-            artifactsToPurge.addAll(artifactsForSystem);
-        }
-
-        return artifactsToPurge;
-    }
-
-    private static Set<String> getSystems(List<Artifact> artifacts) {
-        Set<String> systems = new HashSet<>();
-
-        for (Artifact artifact : artifacts) {
-            String systemName = artifact.getPackageName();
-            systems.add(systemName);
-        }
-
-        return systems;
-    }
-
-    private static List<Artifact> selectArtifacts(List<Artifact> artifacts, String systemName, int generationsToKeep, Logger logger) {
-        List<Artifact> artifactsToPurge = new LinkedList<>();
-
-        List<Artifact> selectedArtifacts = new LinkedList<>();
-
-        for (Artifact artifact : artifacts) {
-            if (artifact.getPackageName().equals(systemName)) {
-                selectedArtifacts.add(artifact);
-            }
-        }
-
-        Comparator<Artifact> artifactComparer = new ArtifactComparator(logger);
-        Collections.sort(selectedArtifacts, artifactComparer);
-
-        for (int index = 0; index < selectedArtifacts.size() - generationsToKeep; index++) {
-            Artifact artifact = selectedArtifacts.get(index);
-            artifactsToPurge.add(artifact);
-        }
-
-        return artifactsToPurge;
+    public static Set<Artifact> getArtifactsToPurge(String packageName, RepositoryContent content, int generationsToKeep) {
+        return content.getOldArtifacts(packageName, generationsToKeep);
     }
 }

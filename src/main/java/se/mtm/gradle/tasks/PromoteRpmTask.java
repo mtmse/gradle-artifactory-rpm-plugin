@@ -27,6 +27,7 @@ public class PromoteRpmTask extends DefaultTask {
         String stagingRepo = extension.getStagingRepo();
         String promotionRepo = extension.getPromotionRepo();
         String artifactoryHost = extension.getRepositoryServerUrl();
+        int generationToKeep = extension.getGenerationsToKeep();
 
         String distributionDir = extension.getDistributionDir();
         List<File> rpms = UploadRpm.getAllRpms(distributionDir);
@@ -36,7 +37,7 @@ public class PromoteRpmTask extends DefaultTask {
             logger.lifecycle("Promoting " + artifact.getFileName() + " " + artifact.getSize() + " from " + stagingRepo + " to " + promotionRepo + " on " + artifactoryHost);
             long start = System.currentTimeMillis();
             UploadRpm.to(artifact, promotionRepo, artifactoryHost);
-            PurgeRpm.purge(artifact, stagingRepo, artifactoryHost);
+            PurgeRpm.purge(artifact, stagingRepo, artifactoryHost, generationToKeep);
             long stop = System.currentTimeMillis();
             long duration = stop - start;
             logger.lifecycle("Promoted " + artifact.getFileName() + " from " + stagingRepo + " to " + promotionRepo + " on " + artifactoryHost + " at " + artifact.getUploadSpeed(duration));

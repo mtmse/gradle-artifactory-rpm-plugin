@@ -83,6 +83,22 @@ public class ArtifactoryClient {
         }
     }
 
+    public static void copyArtifact(String artifactName, String srcRepository, String targetRepository, String artifactoryHost) {
+        Client artifactoryClient = getConnector();
+
+        String source = "api/copy" + "/" + srcRepository + "/" + artifactName;
+        String target = "/" + targetRepository + "/" + artifactName;
+        Response response = artifactoryClient.target(artifactoryHost)
+                .path(source)
+                .queryParam("to", target)
+                .request(MediaType.APPLICATION_JSON)
+                .post(Entity.entity(null, "application/vnd.org.jfrog.artifactory.storage.CopyOrMoveResult+json"));
+
+        if (response.getStatus() != 200) {
+            throw new PromoteRpmException(artifactName, srcRepository, targetRepository, artifactoryHost);
+        }
+    }
+
     private static Client getConnector() {
         // return getGrizzlyConnector();
         return getDefaultConnector();

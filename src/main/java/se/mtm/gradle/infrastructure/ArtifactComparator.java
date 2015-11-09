@@ -1,14 +1,15 @@
 package se.mtm.gradle.infrastructure;
 
 import org.gradle.api.logging.Logger;
+import org.gradle.api.logging.Logging;
 
 import java.util.Comparator;
 
 class ArtifactComparator implements Comparator<Artifact> {
     private Logger logger;
 
-    public ArtifactComparator(Logger logger) {
-        this.logger = logger;
+    public ArtifactComparator() {
+        this.logger = Logging.getLogger(ArtifactComparator.class);
     }
 
     @Override

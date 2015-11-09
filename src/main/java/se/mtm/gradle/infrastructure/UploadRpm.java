@@ -48,7 +48,7 @@ public class UploadRpm {
             }
         }
 
-        Comparator<Artifact> artifactComparer = new ArtifactComparator(logger);
+        Comparator<Artifact> artifactComparer = new ArtifactComparator();
         Collections.sort(allArtifacts, artifactComparer);
         Collections.reverse(allArtifacts);
 

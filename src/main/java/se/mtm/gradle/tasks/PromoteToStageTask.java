@@ -11,6 +11,14 @@ import java.io.IOException;
 import java.util.Set;
 
 public class PromoteToStageTask extends DefaultTask {
+    // todo Det måste gå att förenkla actionen nedan så den blir:
+    // Red ut alla paremetrar
+    // Gör tre saker:
+    //  * Ladda upp
+    //  * Purge
+    //  * Recreate index
+    // Det är alldeles för komplicerat nu
+
     @TaskAction
     public void promote() throws IOException {
         GradleArtifactoryRpmPluginDefaults extension = getProject().getExtensions().findByType(GradleArtifactoryRpmPluginDefaults.class);
@@ -30,7 +38,7 @@ public class PromoteToStageTask extends DefaultTask {
         uploadRpm(rpm, repository, artifactoryHost, logger);
 
         int generations = extension.getGenerationsToKeep();
-        purge(packageName, repository, artifactoryHost, generations, logger);
+        purge(packageName, repository, artifactoryHost, generations);
 
         RecalculateYumIndex.trigger(repository, artifactoryHost);
     }
@@ -45,13 +53,13 @@ public class PromoteToStageTask extends DefaultTask {
         logger.lifecycle("Uploaded " + artifact.getFileName() + " to " + repository + " on " + artifactoryHost + " at " + artifact.getUploadSpeed(duration));
     }
 
-    private void purge(String packageName, String repository, String artifactoryHost, int generations, Logger logger) throws IOException {
+    private void purge(String packageName, String repository, String artifactoryHost, int generations) throws IOException {
         RepositoryContent allRpms = FindRpms.in(repository, artifactoryHost);
-        Set<Artifact> artifactsToPurge = PurgeRpm.getArtifactsToPurge(allRpms, generations, logger);
+        Set<Artifact> artifactsToPurge = PurgeRpm.getArtifactsToPurge(packageName, allRpms, generations);
 
         for (Artifact artifact : artifactsToPurge) {
             if (artifact.getPackageName().equals(packageName)) {
-                PurgeRpm.purge(artifact, repository, artifactoryHost);
+                PurgeRpm.purge(artifact, repository, artifactoryHost, generations);
             }
         }
     }
