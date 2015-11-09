@@ -34,6 +34,8 @@ public class UploadRpm {
             rpms.add((File) fileName);
         }
 
+        Collections.sort(rpms);
+
         return rpms;
     }
 
