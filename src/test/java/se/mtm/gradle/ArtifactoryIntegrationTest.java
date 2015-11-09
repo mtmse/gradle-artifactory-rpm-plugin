@@ -8,17 +8,20 @@ import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import static junit.framework.TestCase.assertTrue;
 
 public class ArtifactoryIntegrationTest {
+    private String packageName = "rpm-to-artifactory-example";
     private final String srcRepository = "mtm-dev";
     private final String targetRepository = "mtm-staging";
     private final String artifactoryHost = "http://artifactory.mtm.se:8081/artifactory";
 
     @Before
     public void setUp() throws IOException {
-        clearRepository();
+        clearRepository(srcRepository);
+        clearRepository(targetRepository);
     }
 
     @Test
@@ -36,7 +39,7 @@ public class ArtifactoryIntegrationTest {
 
         RecalculateYumIndex.trigger(srcRepository, artifactoryHost);
 
-        PurgeRpm.purge(artifact, srcRepository, artifactoryHost, 1);
+        PurgeRpm.purge(artifact, srcRepository, artifactoryHost);
 
         artifacts = FindRpms.in(srcRepository, artifactoryHost);
         assertTrue("No artifacts should have been found", artifacts.getFiles().isEmpty());
@@ -46,7 +49,7 @@ public class ArtifactoryIntegrationTest {
     public void promote_rpm_from_stage_to_utv() throws IOException {
         String buildDirectory = "./src/test/resources/";
 
-        String packageName = "rpm-to-artifactory-example";
+
         Artifact oldest = new Artifact(new File(buildDirectory + packageName + "-1.0.0-1.noarch.rpm"));
         Artifact old = new Artifact(new File(buildDirectory + packageName + "-1.0.0-2.noarch.rpm"));
         Artifact latest = new Artifact(new File(buildDirectory + packageName + "-1.0.0-3.noarch.rpm"));
@@ -67,11 +70,11 @@ public class ArtifactoryIntegrationTest {
 
     }
 
-    // todo purge för rätt system, inte allt
-    private void clearRepository() throws IOException {
+    private void clearRepository(String srcRepository) throws IOException {
         RepositoryContent artifacts = FindRpms.in(srcRepository, artifactoryHost);
-        for (String artifact : artifacts.getFiles()) {
-            PurgeRpm.purge(new Artifact(new File(artifact)), srcRepository, artifactoryHost, 0);
+        Set<Artifact> srcArtifacts = PurgeRpm.getArtifactsToPurge(packageName, artifacts, 0);
+        for (Artifact artifact : srcArtifacts) {
+            PurgeRpm.purge(artifact, srcRepository, artifactoryHost);
         }
     }
 }

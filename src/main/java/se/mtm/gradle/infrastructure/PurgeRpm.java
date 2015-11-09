@@ -3,7 +3,7 @@ package se.mtm.gradle.infrastructure;
 import java.util.Set;
 
 public class PurgeRpm {
-    public static void purge(Artifact artifact, String repository, String artifactoryHost, int generationsToKeep) {
+    public static void purge(Artifact artifact, String repository, String artifactoryHost) {
         ArtifactoryClient.purgeOld(artifact, repository, artifactoryHost);
     }
 

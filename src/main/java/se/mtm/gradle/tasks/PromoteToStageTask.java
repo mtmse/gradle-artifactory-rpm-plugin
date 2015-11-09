@@ -59,7 +59,7 @@ public class PromoteToStageTask extends DefaultTask {
 
         for (Artifact artifact : artifactsToPurge) {
             if (artifact.getPackageName().equals(packageName)) {
-                PurgeRpm.purge(artifact, repository, artifactoryHost, generations);
+                PurgeRpm.purge(artifact, repository, artifactoryHost);
             }
         }
     }
