@@ -120,12 +120,12 @@ public class Artifact {
 
         Artifact artifact = (Artifact) o;
 
-        return !(file != null ? !file.equals(artifact.file) : artifact.file != null);
+        return !(getPackageName() != null ? !getPackageName().equals(artifact.getPackageName()) : artifact.getPackageName() != null);
     }
 
     @Override
     public int hashCode() {
-        return file != null ? file.hashCode() : 0;
+        return getPackageName() != null ? getPackageName().hashCode() : 0;
     }
 
     @Override

@@ -11,70 +11,52 @@ import java.util.List;
 import java.util.Set;
 
 import static junit.framework.TestCase.assertTrue;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 
 public class ArtifactoryIntegrationTest {
     private String packageName = "rpm-to-artifactory-example";
-    private final String srcRepository = "mtm-dev";
-    private final String targetRepository = "mtm-staging";
-    private final String artifactoryHost = "http://artifactory.mtm.se:8081/artifactory";
+    private final String src = "mtm-dev";
+    private final String target = "mtm-staging";
+    private final String host = "http://artifactory.mtm.se:8081/artifactory";
 
     @Before
     public void setUp() throws IOException {
-        clearRepository(srcRepository);
-        clearRepository(targetRepository);
+        clearRepository(src);
+        clearRepository(target);
     }
 
     @Test
-    public void check_that_no_artifact_is_uploaded_upload_an_artifact_see_that_it_is_uploaded_remove_it_and_see_that_it_is_gone() throws IOException {
+    public void promote_rpm_from_dev_to_staging() throws IOException {
         String buildDirectory = "./src/test/resources/";
-        Artifact artifact = new Artifact(new File(buildDirectory + "rpm-to-artifactory-example-1.0.0-1.noarch.rpm"));
-
-        RepositoryContent artifacts = FindRpms.in(srcRepository, artifactoryHost);
-        assertTrue("No artifacts should have been found", artifacts.getFiles().isEmpty());
-
-        UploadRpm.to(artifact, srcRepository, artifactoryHost);
-
-        artifacts = FindRpms.in(srcRepository, artifactoryHost);
-        assertTrue("One artifact should have been found", artifacts.getFiles().size() == 1);
-
-        RecalculateYumIndex.trigger(srcRepository, artifactoryHost);
-
-        PurgeRpm.purge(artifact, srcRepository, artifactoryHost);
-
-        artifacts = FindRpms.in(srcRepository, artifactoryHost);
-        assertTrue("No artifacts should have been found", artifacts.getFiles().isEmpty());
-    }
-
-    @Test
-    public void promote_rpm_from_stage_to_utv() throws IOException {
-        String buildDirectory = "./src/test/resources/";
-
 
         Artifact oldest = new Artifact(new File(buildDirectory + packageName + "-1.0.0-1.noarch.rpm"));
         Artifact old = new Artifact(new File(buildDirectory + packageName + "-1.0.0-2.noarch.rpm"));
         Artifact latest = new Artifact(new File(buildDirectory + packageName + "-1.0.0-3.noarch.rpm"));
 
-        List<Artifact> artifacts2 = new LinkedList<>();
-        artifacts2.add(oldest);
-        artifacts2.add(old);
-        artifacts2.add(latest);
+        List<Artifact> artifacts = new LinkedList<>();
+        artifacts.add(oldest);
+        artifacts.add(old);
+        artifacts.add(latest);
 
-        RepositoryContent artifacts = FindRpms.in(srcRepository, artifactoryHost);
-        assertTrue("No artifacts should have been found", artifacts.getFiles().isEmpty());
-
-        for (Artifact artifact : artifacts2) {
-            UploadRpm.to(artifact, srcRepository, artifactoryHost);
+        for (Artifact artifact : artifacts) {
+            UploadRpm.to(artifact, src, host);
         }
 
-        PromoteRpm.promote(packageName, srcRepository, targetRepository, artifactoryHost);
+        PromoteRpm.promote(packageName, src, target, host);
 
+        PurgeRpm.purge(packageName, target, host, 1);
+
+        RecalculateYumIndex.trigger(target, host);
+
+        RepositoryContent targetArtifacts = FindRpms.in(target, host);
+        Set<Artifact> allArtifacts = targetArtifacts.getArtifacts(packageName);
+
+        assertThat(allArtifacts.size(), is(1));
+        assertTrue("Expected to find " + latest.getFileName(), allArtifacts.contains(latest));
     }
 
-    private void clearRepository(String srcRepository) throws IOException {
-        RepositoryContent artifacts = FindRpms.in(srcRepository, artifactoryHost);
-        Set<Artifact> srcArtifacts = PurgeRpm.getArtifactsToPurge(packageName, artifacts, 0);
-        for (Artifact artifact : srcArtifacts) {
-            PurgeRpm.purge(artifact, srcRepository, artifactoryHost);
-        }
+    private void clearRepository(String repository) throws IOException {
+        PurgeRpm.purge(packageName, repository, host, 0);
     }
 }

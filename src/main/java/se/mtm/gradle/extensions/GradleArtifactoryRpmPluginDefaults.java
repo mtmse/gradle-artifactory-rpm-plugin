@@ -5,6 +5,8 @@ import se.mtm.gradle.infrastructure.ConfigurationException;
 import java.io.File;
 
 public class GradleArtifactoryRpmPluginDefaults {
+    // todo revidera vilka properties som kan bli satta i README.md
+
     private String repositoryServerUrl = "http://artifactory.mtm.se:8081/artifactory";
     private String stagingRepo = "mtm-staging";
     private String stageRepo = "mtm-staging";
@@ -18,6 +20,7 @@ public class GradleArtifactoryRpmPluginDefaults {
 
     boolean isDistributionDirChanged = false;
     private File buildDir;
+    private String packageName;
 
     public GradleArtifactoryRpmPluginDefaults() {
         purgeRepos = new String[2];
@@ -116,5 +119,13 @@ public class GradleArtifactoryRpmPluginDefaults {
 
     public void setBuildDir(File buildDir) {
         this.buildDir = buildDir;
+    }
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
     }
 }
