@@ -31,15 +31,15 @@ public class PromoteToStageTask extends DefaultTask {
     }
 
     private void upload(String packageName, String repository, String host, Logger logger) throws IOException {
-        Artifact artifact = getArtifact(packageName);
+        Artifact artifact = getArtifact(packageName, logger);
 
         UploadRpm.to(artifact, repository, host, logger);
     }
 
-    private Artifact getArtifact(String packageName) {
+    private Artifact getArtifact(String packageName, Logger logger) {
         File buildDir = getProject().getBuildDir();
 
-        File rpm = UploadRpm.getLatestRpm(packageName, buildDir);
+        File rpm = UploadRpm.getLatestRpm(packageName, buildDir, logger);
         return new Artifact(rpm);
     }
 }

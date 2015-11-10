@@ -19,8 +19,20 @@ public class UploadRpm {
         logger.lifecycle("Uploaded " + artifact.getFileName() + " to " + repository + " on " + artifactoryHost + " at " + artifact.getUploadSpeed(duration));
     }
 
-    public static File getLatestRpm(String packageName, File dir) {
+    public static File getLatestRpm(String packageName, File dir, Logger logger) {
+        // debug
+        logger.lifecycle("Package name: " + packageName);
+        logger.lifecycle("Dir: " + dir);
+        // debug
+
         List<File> allRpms = getAllRpms(dir);
+
+        // debug
+        logger.lifecycle("All RPMs: ");
+        for (File f : allRpms) {
+            logger.lifecycle("rpm: " + f);
+        }
+        // debug
 
         List<Artifact> allArtifacts = new ArrayList<>();
         for (File rpm : allRpms) {
@@ -29,6 +41,14 @@ public class UploadRpm {
                 allArtifacts.add(candidate);
             }
         }
+
+        // debug
+        logger.lifecycle("Filtered RPMs: ");
+        for (Artifact a : allArtifacts) {
+            logger.lifecycle("rpm: " + a.getFileName());
+        }
+        logger.lifecycle("Listed all Filtered RPMs");
+        // debug
 
         Comparator<Artifact> artifactComparer = new ArtifactComparator();
         Collections.sort(allArtifacts, artifactComparer);
