@@ -29,6 +29,6 @@ public class RepositoryContentTest {
 
         Artifact actual = repositoryContent.getLatest("rpm-to-artifactory-example");
 
-        assertThat(actual, is(expected));
+        assertThat(actual.getFileName(), is(expected.getFileName()));
     }
 }

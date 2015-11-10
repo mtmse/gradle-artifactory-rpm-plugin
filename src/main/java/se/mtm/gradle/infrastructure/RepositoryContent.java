@@ -45,6 +45,7 @@ public class RepositoryContent {
 
     public Artifact getLatest(String packageName) {
         List<Artifact> selectedArtifacts = getArtifactsSorted(packageName);
+        Collections.reverse(selectedArtifacts);
 
         return selectedArtifacts.get(0);
     }
