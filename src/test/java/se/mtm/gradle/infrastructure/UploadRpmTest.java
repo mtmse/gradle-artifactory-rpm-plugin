@@ -1,5 +1,6 @@
 package se.mtm.gradle.infrastructure;
 
+import org.gradle.api.logging.Logger;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -11,6 +12,7 @@ import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
 
 public class UploadRpmTest {
     @Rule
@@ -43,7 +45,11 @@ public class UploadRpmTest {
 
         File expected = new File(dir + "/example-1.0.10-4.noarch.rpm");
 
-        File actual = UploadRpm.getLatestRpm(packageName, dir);
+        // debug
+        Logger logger = mock(Logger.class);
+        // debug
+
+        File actual = UploadRpm.getLatestRpm(packageName, dir, logger);
 
         assertThat(actual, is(expected));
     }
