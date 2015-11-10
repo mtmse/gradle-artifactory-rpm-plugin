@@ -7,8 +7,8 @@ import java.io.IOException;
 public class PromoteToProdTask extends PromoteTask {
     @TaskAction
     public void promote() throws IOException {
-        String src = extension.getStageRepo();
-        String target = extension.getUtvRepo();
+        String src = extension.getTestRepo();
+        String target = extension.getProdRepo();
 
         promote(src, target);
     }
