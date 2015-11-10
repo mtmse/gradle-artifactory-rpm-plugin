@@ -9,18 +9,19 @@ public class GradleArtifactoryRpmPluginDefaults {
 
     private String repositoryServerUrl = "http://artifactory.mtm.se:8081/artifactory";
     private String stagingRepo = "mtm-staging";
-    private String stageRepo = "mtm-staging";
     private String utvRepo = "mtm-utv";
     private String testRepo = "mtm-test";
     private String prodRepo = "mtm-production";
+    private int generationsToKeep = 3;
+    private String packageName;
+
+    private String stageRepo = "mtm-staging";
     private String promotionRepo = "mtm-utv";
     private String[] purgeRepos;
     private String distributionDir = "distributions";
-    private int generationsToKeep = 3;
 
     boolean isDistributionDirChanged = false;
     private File buildDir;
-    private String packageName;
 
     public GradleArtifactoryRpmPluginDefaults() {
         purgeRepos = new String[2];
