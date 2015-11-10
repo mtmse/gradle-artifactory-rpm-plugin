@@ -25,7 +25,7 @@ public class ArtifactoryClient {
     private static final Logger logger = Logging.getLogger(ArtifactComparator.class);
 
     public static void upLoad(Artifact artifact, String repository, String artifactoryHost) throws IOException {
-        logger.lifecycle("Upload " + artifact.getFileName() + " to " + repository + " on " + artifactoryHost);
+        logger.quiet("Upload " + artifact.getFileName() + " to " + repository + " on " + artifactoryHost);
 
         InputStream resourceAsStream = FileUtils.openInputStream(artifact.getFile());
         String md5Hash = DigestUtils.md5Hex(resourceAsStream);
@@ -43,7 +43,7 @@ public class ArtifactoryClient {
             throw new DeployRpmException(artifact, repository, artifactoryHost);
         }
 
-        logger.lifecycle("Uploaded " + artifact.getFileName() + " to " + repository + " on " + artifactoryHost);
+        logger.quiet("Uploaded " + artifact.getFileName() + " to " + repository + " on " + artifactoryHost);
     }
 
     public static RepositoryContent getRepositoryContent(String repository, String artifactoryHost) throws IOException {
@@ -65,7 +65,7 @@ public class ArtifactoryClient {
     }
 
     public static void purgeOld(Artifact artifact, String repository, String artifactoryHost) {
-        logger.lifecycle("Purge old " + artifact.getPackageName() + " packages in " + repository + " on " + artifactoryHost);
+        logger.quiet("Purge old " + artifact.getPackageName() + " packages in " + repository + " on " + artifactoryHost);
 
         Client artifactoryClient = ArtifactoryClient.getConnector();
         WebTarget target = artifactoryClient.target(artifactoryHost + "/" + repository + "/" + artifact.getFileName());
@@ -78,11 +78,11 @@ public class ArtifactoryClient {
             throw new PurgeRpmException(artifact, repository, artifactoryHost);
         }
 
-        logger.lifecycle("Purged old " + artifact.getPackageName() + " packages in " + repository + " on " + artifactoryHost);
+        logger.quiet("Purged old " + artifact.getPackageName() + " packages in " + repository + " on " + artifactoryHost);
     }
 
     public static void triggerIndexRecalculation(String repository, String artifactoryHost) {
-        logger.lifecycle("Recalculate yum index for " + repository + " on " + artifactoryHost);
+        logger.quiet("Recalculate yum index for " + repository + " on " + artifactoryHost);
 
         Client artifactoryClient = getConnector();
 
@@ -95,11 +95,11 @@ public class ArtifactoryClient {
             throw new RecalculateYumIndexException(repository, artifactoryHost);
         }
 
-        logger.lifecycle("Recalculated yum index for " + repository + " on " + artifactoryHost);
+        logger.quiet("Recalculated yum index for " + repository + " on " + artifactoryHost);
     }
 
     public static void copyArtifact(String artifactName, String srcRepository, String targetRepository, String artifactoryHost) {
-        logger.lifecycle("Promote " + artifactName + " from " + srcRepository + " to " + targetRepository + " on " + artifactoryHost);
+        logger.quiet("Promote " + artifactName + " from " + srcRepository + " to " + targetRepository + " on " + artifactoryHost);
 
         Client artifactoryClient = getConnector();
 
@@ -115,7 +115,7 @@ public class ArtifactoryClient {
             throw new PromoteRpmException(artifactName, srcRepository, targetRepository, artifactoryHost);
         }
 
-        logger.lifecycle("Promoted " + artifactName + " from " + srcRepository + " to " + targetRepository + " on " + artifactoryHost);
+        logger.quiet("Promoted " + artifactName + " from " + srcRepository + " to " + targetRepository + " on " + artifactoryHost);
     }
 
     private static Client getConnector() {
