@@ -37,9 +37,10 @@ public class PromoteToStageTask extends DefaultTask {
     }
 
     private Artifact getArtifact(String packageName, Logger logger) {
-        File buildDir = getProject().getBuildDir();
+        String distribution = getProject().getBuildDir().getAbsolutePath() + "/" + "distributions";
+        File distDir = new File(distribution);
 
-        File rpm = UploadRpm.getLatestRpm(packageName, buildDir, logger);
+        File rpm = UploadRpm.getLatestRpm(packageName, distDir, logger);
         return new Artifact(rpm);
     }
 }
