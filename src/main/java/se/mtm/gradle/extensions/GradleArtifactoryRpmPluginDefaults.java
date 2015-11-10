@@ -1,5 +1,6 @@
 package se.mtm.gradle.extensions;
 
+import org.gradle.api.Project;
 import se.mtm.gradle.infrastructure.ConfigurationException;
 
 import java.io.File;
@@ -93,6 +94,18 @@ public class GradleArtifactoryRpmPluginDefaults {
         this.purgeRepos = purgeRepos;
     }
 
+    public String getPackageName(Project project) {
+        if (packageName == null) {
+            packageName = project.getName();
+        }
+
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
     public String getDistributionDir() {
         if (isDistributionDirChanged) {
             return distributionDir;
@@ -122,11 +135,4 @@ public class GradleArtifactoryRpmPluginDefaults {
         this.buildDir = buildDir;
     }
 
-    public String getPackageName() {
-        return packageName;
-    }
-
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
 }

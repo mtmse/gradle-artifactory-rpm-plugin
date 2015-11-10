@@ -1,5 +1,6 @@
 package se.mtm.gradle;
 
+import org.gradle.api.logging.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import se.mtm.gradle.infrastructure.*;
@@ -13,8 +14,10 @@ import java.util.Set;
 import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
 
 public class ArtifactoryIntegrationTest {
+    private Logger logger = mock(Logger.class);
     private String packageName = "rpm-to-artifactory-example";
     private final String src = "mtm-dev";
     private final String target = "mtm-staging";
@@ -40,14 +43,14 @@ public class ArtifactoryIntegrationTest {
         artifacts.add(latest);
 
         for (Artifact artifact : artifacts) {
-            UploadRpm.to(artifact, src, host);
+            UploadRpm.to(artifact, src, host, logger);
         }
 
         PromoteRpm.promote(packageName, src, target, host);
 
-        PurgeRpm.purge(packageName, target, host, 1);
+        PurgeRpm.purge(packageName, target, host, 1, logger);
 
-        RecalculateYumIndex.trigger(target, host);
+        RecalculateYumIndex.trigger(target, host, logger);
 
         RepositoryContent targetArtifacts = FindRpms.in(target, host);
         Set<Artifact> allArtifacts = targetArtifacts.getArtifacts(packageName);
@@ -57,6 +60,6 @@ public class ArtifactoryIntegrationTest {
     }
 
     private void clearRepository(String repository) throws IOException {
-        PurgeRpm.purge(packageName, repository, host, 0);
+        PurgeRpm.purge(packageName, repository, host, 0, logger);
     }
 }

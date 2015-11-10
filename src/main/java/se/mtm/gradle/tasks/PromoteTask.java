@@ -14,7 +14,7 @@ public class PromoteTask extends DefaultTask {
 
     protected void promote(String src, String target) throws IOException {
         Logger logger = getLogger();
-        String packageName = getPackageName();
+        String packageName = extension.getPackageName(getProject());
         String host = extension.getRepositoryServerUrl();
         int generationsToKeep = extension.getGenerationsToKeep();
 
@@ -22,22 +22,7 @@ public class PromoteTask extends DefaultTask {
         PromoteRpm.promote(packageName, src, target, host);
         logger.lifecycle("Promoted " + packageName + " from " + src + " to " + target + " on " + host);
 
-        logger.quiet("Purge old " + packageName + " packages in " + target + " on " + host + " keeping " + generationsToKeep + " generations");
-        PurgeRpm.purge(packageName, target, host, generationsToKeep);
-        logger.quiet("Purged old " + packageName + " packages in " + target + " on " + host + " keeping " + generationsToKeep + " generations");
-
-        logger.quiet("Recalculate yum index for " + target + " on " + host);
-        RecalculateYumIndex.trigger(target, host);
-        logger.quiet("Recalculated yum index for " + target + " on " + host);
-    }
-
-    private String getPackageName() {
-        String packageName = extension.getPackageName();
-
-        if (packageName == null) {
-            packageName = getProject().getName();
-        }
-
-        return packageName;
+        PurgeRpm.purge(packageName, target, host, generationsToKeep, logger);
+        RecalculateYumIndex.trigger(target, host, logger);
     }
 }

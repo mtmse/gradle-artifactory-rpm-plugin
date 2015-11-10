@@ -8,12 +8,36 @@ import java.io.IOException;
 import java.util.*;
 
 public class UploadRpm {
-    public static void to(Artifact artifact, String repository, String artifactoryHost) throws IOException {
+    public static void to(Artifact artifact, String repository, String artifactoryHost, Logger logger) throws IOException {
+        logger.lifecycle("Uploading " + artifact.getFileName() + " " + artifact.getSize() + " to " + repository + " on " + artifactoryHost);
+        long start = System.currentTimeMillis();
+
         ArtifactoryClient.upLoad(artifact, repository, artifactoryHost);
+
+        long stop = System.currentTimeMillis();
+        long duration = stop - start;
+        logger.lifecycle("Uploaded " + artifact.getFileName() + " to " + repository + " on " + artifactoryHost + " at " + artifact.getUploadSpeed(duration));
     }
 
-    public static List<File> getAllRpms(String distributionDir) {
-        File dir = new File(distributionDir);
+    public static File getLatestRpm(String packageName, File dir) {
+        List<File> allRpms = getAllRpms(dir);
+
+        List<Artifact> allArtifacts = new ArrayList<>();
+        for (File rpm : allRpms) {
+            Artifact candidate = new Artifact(rpm);
+            if (candidate.getPackageName().equals(packageName)) {
+                allArtifacts.add(candidate);
+            }
+        }
+
+        Comparator<Artifact> artifactComparer = new ArtifactComparator();
+        Collections.sort(allArtifacts, artifactComparer);
+        Collections.reverse(allArtifacts);
+
+        return allArtifacts.get(0).getFile();
+    }
+
+    public static List<File> getAllRpms(File dir) {
         if (!dir.isDirectory()) {
             try {
                 String completePath = dir.getCanonicalPath();
@@ -37,23 +61,5 @@ public class UploadRpm {
         Collections.sort(rpms);
 
         return rpms;
-    }
-
-    public static File getLatestRpm(String packageName, String distributionDir, Logger logger) {
-        List<File> allRpms = getAllRpms(distributionDir);
-
-        List<Artifact> allArtifacts = new ArrayList<>();
-        for (File rpm : allRpms) {
-            Artifact candidate = new Artifact(rpm);
-            if (candidate.getPackageName().equals(packageName)) {
-                allArtifacts.add(candidate);
-            }
-        }
-
-        Comparator<Artifact> artifactComparer = new ArtifactComparator();
-        Collections.sort(allArtifacts, artifactComparer);
-        Collections.reverse(allArtifacts);
-
-        return allArtifacts.get(0).getFile();
     }
 }
