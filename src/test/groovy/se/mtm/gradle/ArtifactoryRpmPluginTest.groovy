@@ -17,9 +17,9 @@ class ArtifactoryRpmPluginTest {
 
         project.getPlugins().apply 'se.mtm.artifactory-rpm'
 
-        assertTrue(project.tasks.promoteToStage instanceof PromoteToStageTask)
-        assertTrue(project.tasks.promoteToUtv instanceof PromoteToUtvTask)
-        assertTrue(project.tasks.promoteToTest instanceof PromoteToTestTask)
-        assertTrue(project.tasks.promoteToProd instanceof PromoteToProdTask)
+        assertTrue(project.tasks.promoteToStageRepo instanceof PromoteToStageTask)
+        assertTrue(project.tasks.promoteToUtvRepo instanceof PromoteToUtvTask)
+        assertTrue(project.tasks.promoteToTestRepo instanceof PromoteToTestTask)
+        assertTrue(project.tasks.promoteToProdRepo instanceof PromoteToProdTask)
     }
 }

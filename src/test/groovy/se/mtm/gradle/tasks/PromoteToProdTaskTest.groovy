@@ -11,7 +11,7 @@ class PromoteToProdTaskTest {
     public void should_be_able_to_add_task_to_project() {
         Project project = ProjectBuilder.builder().build()
 
-        def task = project.task('promoteToProd', type: PromoteToProdTask)
+        def task = project.task('promoteToProdRepo', type: PromoteToProdTask)
 
         assertTrue(task instanceof PromoteToProdTask)
     }

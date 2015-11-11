@@ -11,7 +11,7 @@ class PromoteToUtvTaskTest {
     public void should_be_able_to_add_task_to_project() {
         Project project = ProjectBuilder.builder().build()
 
-        def task = project.task('promoteToUtv', type: PromoteToUtvTask)
+        def task = project.task('promoteToUtvRepo', type: PromoteToUtvTask)
 
         assertTrue(task instanceof PromoteToUtvTask)
     }
