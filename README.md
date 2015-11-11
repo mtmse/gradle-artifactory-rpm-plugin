@@ -2,28 +2,24 @@
 
 ## Purposes
 
-There are two purposes with this plugin.
+The purpose is to simplify RPM handling in Artifactory.
 
-* Simplify uploading RPMs to Artifactory
-* Purge old RPMs from Artifactory
-
-Uploading RPMs should be done as an integrated part of the build. The solutions suggested from JFrog will upload the
-artifacts with a group, an artifact name and a version in a Maven style. We want to upload the RPMs to a flat structure.
-
-We also want to keep the number of RPMs down somewhat in order to preserve disk on the repository manager. Old RPMs
-will be purged regularly keeping a few generations back but not all history.
+* Deploy RPMs to Artifactory
+* Promote artifacts from one repo to another
+* Purge old RPMs to avoid filling the disk in Artifactory
 
 ## Usage
 
-How are you expected to use the plugin?
+Use the tasks described below in your build.
 
 ### Tasks
 
 These task are available
 
-* deployRpm - deploy an rpm to a staging repository
-* promoteRpm - promote an rpm from the staging repository
-* purgeOldRpms - remove old rpms, defaults to keep the latest
+* promoteToStageRepo - deploy an rpm to a staging repository
+* promoteToUtvRepo - promote the latest artifact from the staging repo to the utv repo. Utv is Swedish for dev.
+* promoteToTestRepo - promote the latest artifact from the utv repo to the test repo 
+* promoteToProdRepo - promote the latest artifact from the test repo to the production repo 
 
 ### Configuration
 
@@ -37,32 +33,32 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath 'se.mtm.gradle:gradle-artifactory-rpm-plugin:1.0.5'
+        classpath 'se.mtm.gradle:gradle-artifactory-rpm-plugin:1.0.20'
     }
 }
 ```
 
-The version number, `1.0.5`, is obsolete. Update it with the latest release.
+The version number, `1.0.20`, is obsolete. Update it with the latest release.
 
 Configure it:
 
 ```Gradle
 artifactoryRpm {
-    stagingRepo = "mtm-utv"
-    purgeRepos = ["mtm-test", "mtm-dev"]
+    packageName = 'filibuster'         
 }
 ```
 
 The properties that can be set are
 
-* String repositoryServerUrl - your Artifactory host
-* String stagingRepo - a staging repository where artifacts that haven't passed automated tests yet calls home
-* String promotionRepo - a repository to keep artifacts that have passed automated tests
-* String[] purgeRepos - an array of repositories that should be visited when purging old artifacts
-* String distributionDir - the directory where the rpm is stored after executing `buildRpm`
-* int generationsToKeep - how many old artifacts should be kept when purging old rpm
+* repositoryServerUrl - your artifactory host. Defaults to http://artifactory.mtm.se:8081/artifactory
+* stageRepo - the repository where an RPM is uploaded first time. Defaults to mtm-staging          
+* utvRepo - the repository where an RPM will be promoted to from the stage repo. Defaults to mtm-utv             
+* testRepo - the repository where an RPM will be promoted to from the utv repo. Defaults to mtm-test
+* prodRepo - the repository where an RPM will be promoted to from the test repo. Defaults to mtm-production
+* packageName - the name of the RPM without version, release or architecture. Defaults to the Gradle project name         
+* generationsToKeep - The number of generations of the package that will be kept on each promotion. Defaults to 3
 
-The truth and default values are defined in [src/main/java/se/mtm/gradle/extensions/ArtifactoryRpmPluginDefaults](https://github.com/mtmse/gradle-artifactory-rpm-plugin/blob/master/src/main/java/se/mtm/gradle/extensions/ArtifactoryRpmPluginDefaults.java)
+The truth is defined in [src/main/java/se/mtm/gradle/extensions/ArtifactoryRpmPluginDefaults](https://github.com/mtmse/gradle-artifactory-rpm-plugin/blob/master/src/main/java/se/mtm/gradle/extensions/ArtifactoryRpmPluginDefaults.java)
 
 ### Environment variables
 
@@ -76,6 +72,14 @@ to the user and password you use for uploading artifacts to Artifactory. If you 
 as environment variables in Jenkins. You find the settings by following these menus items:
 
 `Jenkins | Manage Jenkins | Configure System | Environment variables`
+
+### Simplify usage
+
+Usage of a Gradle tasks can be simplified in two ways. Either minimize the available tasks and allow the users to configure the plugin. Or limit the number of ways to a task can be configured and add more tasks that defaults to something resonable. This plugin has been developed with the latter approach. More tasks and less configuration.
+
+## Why a stage repo?
+
+The process forces you to upload to a stage repository and promote the artifacts from there. Whys this rigid default process? The argument is that it will allow you to install the artifact in an envorionemt before you promote the artifact to the utv repository. Suppose that you have some integration test environemt where you want to install the package in before trying to install it in an environment where other users may use it. The integration test installation need a source to read the package from and the stage repository is that source.
 
 ## Developing
 
