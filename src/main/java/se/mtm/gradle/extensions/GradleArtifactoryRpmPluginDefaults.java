@@ -1,34 +1,15 @@
 package se.mtm.gradle.extensions;
 
 import org.gradle.api.Project;
-import se.mtm.gradle.infrastructure.ConfigurationException;
-
-import java.io.File;
 
 public class GradleArtifactoryRpmPluginDefaults {
-    // todo revidera vilka properties som kan bli satta i README.md
-
     private String repositoryServerUrl = "http://artifactory.mtm.se:8081/artifactory";
-    private String stagingRepo = "mtm-staging";
+    private String stageRepo = "mtm-staging";
     private String utvRepo = "mtm-utv";
     private String testRepo = "mtm-test";
     private String prodRepo = "mtm-production";
-    private int generationsToKeep = 3;
     private String packageName;
-
-    private String stageRepo = "mtm-staging";
-    private String promotionRepo = "mtm-utv";
-    private String[] purgeRepos;
-    private String distributionDir = "distributions";
-
-    boolean isDistributionDirChanged = false;
-    private File buildDir;
-
-    public GradleArtifactoryRpmPluginDefaults() {
-        purgeRepos = new String[2];
-        purgeRepos[0] = stagingRepo;
-        purgeRepos[1] = promotionRepo;
-    }
+    private int generationsToKeep = 3;
 
     public String getRepositoryServerUrl() {
         return repositoryServerUrl;
@@ -70,29 +51,6 @@ public class GradleArtifactoryRpmPluginDefaults {
         this.prodRepo = prodRepo;
     }
 
-    public String getStagingRepo() {
-        return stagingRepo;
-    }
-
-    public void setStagingRepo(String stagingRepo) {
-        this.stagingRepo = stagingRepo;
-    }
-
-    public String getPromotionRepo() {
-        return promotionRepo;
-    }
-
-    public void setPromotionRepo(String promotionRepo) {
-        this.promotionRepo = promotionRepo;
-    }
-
-    public String[] getPurgeRepos() {
-        return purgeRepos;
-    }
-
-    public void setPurgeRepos(String[] purgeRepos) {
-        this.purgeRepos = purgeRepos;
-    }
 
     public String getPackageName(Project project) {
         if (packageName == null) {
@@ -106,23 +64,6 @@ public class GradleArtifactoryRpmPluginDefaults {
         this.packageName = packageName;
     }
 
-    public String getDistributionDir() {
-        if (isDistributionDirChanged) {
-            return distributionDir;
-        }
-
-        try {
-            return buildDir.getCanonicalPath() + File.separator + distributionDir;
-        } catch (Exception e) {
-            throw new ConfigurationException(e.getMessage(), e);
-        }
-    }
-
-    public void setDistributionDir(String distributionDir) {
-        isDistributionDirChanged = true;
-        this.distributionDir = distributionDir;
-    }
-
     public int getGenerationsToKeep() {
         return generationsToKeep;
     }
@@ -130,9 +71,4 @@ public class GradleArtifactoryRpmPluginDefaults {
     public void setGenerationsToKeep(int generationsToKeep) {
         this.generationsToKeep = generationsToKeep;
     }
-
-    public void setBuildDir(File buildDir) {
-        this.buildDir = buildDir;
-    }
-
 }
