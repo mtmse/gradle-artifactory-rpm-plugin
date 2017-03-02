@@ -53,4 +53,13 @@ public class ArtifactComparatorTest {
         assertTrue(smallAutoprod + " is smaller than  " + largeAutoprod, artifactComparator.compare(smallAutoprod, largeAutoprod) < 0);
         assertTrue(largeAutoprod + " is greater than " + smallAutoprod, artifactComparator.compare(largeAutoprod, smallAutoprod) > 0);
     }
+    
+    @Test
+    public void compare_same_artifact_but_different_style() {
+    	Artifact smallAutoprod = new Artifact(new File("pipeline2-1.10-beta1.noarch.rpm"));
+        Artifact largeAutoprod = new Artifact(new File("pipeline2-1.10.1-mtm1.noarch.rpm"));
+
+        assertTrue(smallAutoprod + " is smaller than  " + largeAutoprod, artifactComparator.compare(smallAutoprod, largeAutoprod) < 0);
+        assertTrue(largeAutoprod + " is greater than " + smallAutoprod, artifactComparator.compare(largeAutoprod, smallAutoprod) > 0);
+    }
 }

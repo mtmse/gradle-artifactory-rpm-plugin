@@ -71,6 +71,9 @@ class ArtifactComparator implements Comparator<Artifact> {
         try {
             String[] parts = version.split("\\.");
             return Integer.parseInt(parts[position]);
+        } catch (IndexOutOfBoundsException e) {
+        	//Trying to access a version that doesnt exist as in comparing 1.10-beta and 1.10.1
+        	return -1;
         } catch (NumberFormatException e) {
             String msg = "Tried to parse <" + version + "> for version number " +
                     "divided by '.' in position <" + position + ">";
