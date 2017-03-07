@@ -55,11 +55,29 @@ public class ArtifactComparatorTest {
     }
     
     @Test
-    public void compare_same_artifact_but_different_style() {
-    	Artifact smallAutoprod = new Artifact(new File("pipeline2-1.10-beta1.noarch.rpm"));
-        Artifact largeAutoprod = new Artifact(new File("pipeline2-1.10.1-mtm1.noarch.rpm"));
+    public void compare_same_artifact_but_no_patch() {
+    	Artifact smallPipeline = new Artifact(new File("pipeline2-1.10-beta1.noarch.rpm"));
+        Artifact largePipeline = new Artifact(new File("pipeline2-1.10.1-mtm1.noarch.rpm"));
 
-        assertTrue(smallAutoprod + " is smaller than  " + largeAutoprod, artifactComparator.compare(smallAutoprod, largeAutoprod) < 0);
-        assertTrue(largeAutoprod + " is greater than " + smallAutoprod, artifactComparator.compare(largeAutoprod, smallAutoprod) > 0);
+        assertTrue(smallPipeline + " is smaller than  " + largePipeline, artifactComparator.compare(smallPipeline, largePipeline) < 0);
+        assertTrue(largePipeline + " is greater than " + smallPipeline, artifactComparator.compare(largePipeline, smallPipeline) > 0);
+    }
+    
+    @Test
+    public void compare_same_artifact_but_different_style() {
+    	Artifact smallPipeline = new Artifact(new File("pipeline2-1.10.1-mtm1_1.noarch.rpm"));
+    	Artifact largePipeline = new Artifact(new File("pipeline2-1.10.1-SNAPSHOT20170306124904.noarch.rpm"));
+
+        assertTrue(smallPipeline + " is smaller than  " + largePipeline, artifactComparator.compare(smallPipeline, largePipeline) < 0);
+        assertTrue(largePipeline + " is greater than " + smallPipeline, artifactComparator.compare(largePipeline, smallPipeline) > 0);
+    }
+    
+    @Test
+    public void compare_same_artifact_but_different_snapshot() {
+    	Artifact smallPipeline = new Artifact(new File("pipeline2-1.10.1-SNAPSHOT20170304160242.noarch.rpm"));
+    	Artifact largePipeline = new Artifact(new File("pipeline2-1.10.1-SNAPSHOT20170306124904.noarch.rpm"));
+
+        assertTrue(smallPipeline + " is smaller than  " + largePipeline, artifactComparator.compare(smallPipeline, largePipeline) < 0);
+        assertTrue(largePipeline + " is greater than " + smallPipeline, artifactComparator.compare(largePipeline, smallPipeline) > 0);
     }
 }

@@ -1,6 +1,7 @@
 package se.mtm.gradle.infrastructure;
 
 import java.util.Comparator;
+import java.util.Objects;
 
 class ArtifactComparator implements Comparator<Artifact> {
 
@@ -30,12 +31,20 @@ class ArtifactComparator implements Comparator<Artifact> {
             return lhsPatchVersion.compareTo(rhsPatchVersion);
         }
 
-        Integer lhsReleaseNumber = getReleaseNumber(lhs);
-        Integer rhsReleaseNumber = getReleaseNumber(rhs);
-        if (lhsReleaseNumber.compareTo(rhsReleaseNumber) != 0) {
-            return lhsReleaseNumber.compareTo(rhsReleaseNumber);
+        if(lhs.getRelease().matches("\\d+") && rhs.getRelease().matches("\\d+")) {
+	        Integer lhsReleaseNumber = getReleaseNumber(lhs);
+	        Integer rhsReleaseNumber = getReleaseNumber(rhs);
+	        if (lhsReleaseNumber.compareTo(rhsReleaseNumber) != 0) {
+	            return lhsReleaseNumber.compareTo(rhsReleaseNumber);
+	        }
+        } else {
+        	String lhsReleaseNumber = lhs.getRelease();
+        	String rhsReleaseNumber = rhs.getRelease();
+        	if (lhsReleaseNumber.compareToIgnoreCase(rhsReleaseNumber) != 0) {
+        		return lhsReleaseNumber.compareToIgnoreCase(rhsReleaseNumber);
+        	}
         }
-
+        	
 
         String o1FileName = lhs.getFileName();
         String o2FileName = rhs.getFileName();
