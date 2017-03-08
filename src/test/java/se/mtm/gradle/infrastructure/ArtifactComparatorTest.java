@@ -65,8 +65,9 @@ public class ArtifactComparatorTest {
     
     @Test
     public void compare_same_artifact_but_different_style() {
-    	Artifact smallPipeline = new Artifact(new File("pipeline2-1.10.1-mtm1_1.noarch.rpm"));
-    	Artifact largePipeline = new Artifact(new File("pipeline2-1.10.1-SNAPSHOT20170306124904.noarch.rpm"));
+    	//unicode decimal compare [a=97,B=66] thus B < a
+    	Artifact smallPipeline = new Artifact(new File("pipeline2-1.10.1-BETA1_1.rpm"));
+    	Artifact largePipeline = new Artifact(new File("pipeline2-1.10.1-alpha1_1.noarch.rpm"));
 
         assertTrue(smallPipeline + " is smaller than  " + largePipeline, artifactComparator.compare(smallPipeline, largePipeline) < 0);
         assertTrue(largePipeline + " is greater than " + smallPipeline, artifactComparator.compare(largePipeline, smallPipeline) > 0);

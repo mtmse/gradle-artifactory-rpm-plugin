@@ -37,15 +37,8 @@ class ArtifactComparator implements Comparator<Artifact> {
 	        if (lhsReleaseNumber.compareTo(rhsReleaseNumber) != 0) {
 	            return lhsReleaseNumber.compareTo(rhsReleaseNumber);
 	        }
-        } else {
-        	String lhsReleaseNumber = lhs.getRelease();
-        	String rhsReleaseNumber = rhs.getRelease();
-        	if (lhsReleaseNumber.compareToIgnoreCase(rhsReleaseNumber) != 0) {
-        		return lhsReleaseNumber.compareToIgnoreCase(rhsReleaseNumber);
-        	}
         }
-        	
-
+        
         String o1FileName = lhs.getFileName();
         String o2FileName = rhs.getFileName();
 
