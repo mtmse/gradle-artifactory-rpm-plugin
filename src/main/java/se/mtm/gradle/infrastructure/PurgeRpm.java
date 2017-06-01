@@ -13,6 +13,7 @@ public class PurgeRpm {
         Set<Artifact> oldArtifacts = repositoryContent.getOldArtifacts(packageName, generationsToKeep);
 
         for (Artifact artifact : oldArtifacts) {
+        	logger.quiet("   - Delete: " + artifact.getFileName());
             ArtifactoryClient.purgeOld(artifact, repository, artifactoryHost);
         }
 
