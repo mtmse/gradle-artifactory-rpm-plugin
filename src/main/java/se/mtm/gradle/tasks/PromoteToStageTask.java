@@ -25,7 +25,7 @@ public class PromoteToStageTask extends DefaultTask {
 
         upload(packageName, repository, host, logger);
 
-        PurgeRpm.purge(repository, packageName, host, generationsToKeep, logger);
+        PurgeRpm.purge(packageName, repository, host, generationsToKeep, logger);
 
         RecalculateYumIndex.trigger(repository, host, logger);
     }
