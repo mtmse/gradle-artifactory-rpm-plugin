@@ -1,6 +1,7 @@
 package se.mtm.gradle.infrastructure;
 
 import java.util.Comparator;
+import java.util.Objects;
 
 class ArtifactComparator implements Comparator<Artifact> {
 
@@ -30,13 +31,14 @@ class ArtifactComparator implements Comparator<Artifact> {
             return lhsPatchVersion.compareTo(rhsPatchVersion);
         }
 
-        Integer lhsReleaseNumber = getReleaseNumber(lhs);
-        Integer rhsReleaseNumber = getReleaseNumber(rhs);
-        if (lhsReleaseNumber.compareTo(rhsReleaseNumber) != 0) {
-            return lhsReleaseNumber.compareTo(rhsReleaseNumber);
+        if(lhs.getRelease().matches("\\d+") && rhs.getRelease().matches("\\d+")) {
+	        Integer lhsReleaseNumber = getReleaseNumber(lhs);
+	        Integer rhsReleaseNumber = getReleaseNumber(rhs);
+	        if (lhsReleaseNumber.compareTo(rhsReleaseNumber) != 0) {
+	            return lhsReleaseNumber.compareTo(rhsReleaseNumber);
+	        }
         }
-
-
+        
         String o1FileName = lhs.getFileName();
         String o2FileName = rhs.getFileName();
 
@@ -71,6 +73,9 @@ class ArtifactComparator implements Comparator<Artifact> {
         try {
             String[] parts = version.split("\\.");
             return Integer.parseInt(parts[position]);
+        } catch (IndexOutOfBoundsException e) {
+        	//Trying to access a version that doesnt exist as in comparing 1.10-beta and 1.10.1
+        	return -1;
         } catch (NumberFormatException e) {
             String msg = "Tried to parse <" + version + "> for version number " +
                     "divided by '.' in position <" + position + ">";
