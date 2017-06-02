@@ -62,7 +62,7 @@ public class RepositoryContent {
         return oldArtifacts;
     }
 
-    private List<Artifact> getArtifactsSorted(String packageName) {
+    public List<Artifact> getArtifactsSorted(String packageName) {
         List<Artifact> selectedArtifacts = new LinkedList<>();
         for (Artifact artifact : getArtifacts()) {
             if (artifact.getPackageName().equals(packageName)) {

@@ -23,7 +23,8 @@ public class UploadRpmTest {
         expected.add(new File("src/test/resources/rpm-to-artifactory-example-1.0.0-1.noarch.rpm"));
         expected.add(new File("src/test/resources/rpm-to-artifactory-example-1.0.0-2.noarch.rpm"));
         expected.add(new File("src/test/resources/rpm-to-artifactory-example-1.0.0-3.noarch.rpm"));
-
+        expected.add(new File("src/test/resources/rpm-to-artifactory-example-1.0.0-4.noarch.rpm"));
+        
         List<File> actualRpms = UploadRpm.getAllRpms(dir);
 
         assertThat(actualRpms, is(expected));

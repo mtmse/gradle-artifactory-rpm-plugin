@@ -35,15 +35,18 @@ public class ArtifactoryIntegrationTest {
 
         Artifact oldest = new Artifact(new File(buildDirectory + packageName + "-1.0.0-1.noarch.rpm"));
         Artifact old = new Artifact(new File(buildDirectory + packageName + "-1.0.0-2.noarch.rpm"));
-        Artifact latest = new Artifact(new File(buildDirectory + packageName + "-1.0.0-3.noarch.rpm"));
-
+        Artifact latestlatest = new Artifact(new File(buildDirectory + packageName + "-1.0.0-3.noarch.rpm"));
+        Artifact latest = new Artifact(new File(buildDirectory + packageName + "-1.0.0-4.noarch.rpm"));
+        
         List<Artifact> artifacts = new LinkedList<>();
         artifacts.add(oldest);
         artifacts.add(old);
-        artifacts.add(latest);
+        artifacts.add(latestlatest);
 
+        // Set stage with tree older packages..
         for (Artifact artifact : artifacts) {
             UploadRpm.to(artifact, src, host, logger);
+            UploadRpm.to(artifact, target, host, logger);
         }
 
         PromoteRpm.promote(packageName, src, target, host);
@@ -53,7 +56,7 @@ public class ArtifactoryIntegrationTest {
         RecalculateYumIndex.trigger(target, host, logger);
 
         RepositoryContent targetArtifacts = FindRpms.in(target, host);
-        Set<Artifact> allArtifacts = targetArtifacts.getArtifacts(packageName);
+        List<Artifact> allArtifacts = targetArtifacts.getArtifactsSorted(packageName);
 
         assertThat(allArtifacts.size(), is(1));
         assertTrue("Expected to find " + latest.getFileName(), allArtifacts.contains(latest));
