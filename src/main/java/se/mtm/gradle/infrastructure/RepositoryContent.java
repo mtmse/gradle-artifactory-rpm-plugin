@@ -50,10 +50,10 @@ public class RepositoryContent {
         return selectedArtifacts.get(0);
     }
 
-    public Set<Artifact> getOldArtifacts(String packageName, int generationsToKeep) {
+    public List<Artifact> getOldArtifacts(String packageName, int generationsToKeep) {
         List<Artifact> selectedArtifacts = getArtifactsSorted(packageName);
 
-        Set<Artifact> oldArtifacts = new HashSet<>();
+        List<Artifact> oldArtifacts = new LinkedList<>();
         for (int index = 0; index < selectedArtifacts.size() - generationsToKeep; index++) {
             Artifact artifact = selectedArtifacts.get(index);
             oldArtifacts.add(artifact);
