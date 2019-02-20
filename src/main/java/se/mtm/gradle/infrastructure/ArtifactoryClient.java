@@ -1,9 +1,8 @@
 package se.mtm.gradle.infrastructure;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
-import org.glassfish.jersey.grizzly.connector.GrizzlyConnectorProvider;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -11,15 +10,19 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.File;
-import java.io.IOException;
+
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
+import org.glassfish.jersey.grizzly.connector.GrizzlyConnectorProvider;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ArtifactoryClient {
     private static final String ARTIFACTORY_USER = "ARTIFACTORY_USER";
     private static final String ARTIFACTORY_PASSWORD = "ARTIFACTORY_PASSWORD";
 
     public static void upLoad(Artifact artifact, String repository, String artifactoryHost) throws IOException {
-        Entity<File> entity = Entity.entity(artifact.getFile(), MediaType.APPLICATION_OCTET_STREAM_TYPE);
+        Entity<InputStream> entity = Entity.entity(new FileInputStream(artifact.getFile()), MediaType.APPLICATION_OCTET_STREAM_TYPE);
 
         Client artifactoryClient = ArtifactoryClient.getConnector();
         WebTarget target = artifactoryClient.target(artifactoryHost + "/" + repository + "/" + artifact.getFileName());
